@@ -57,7 +57,7 @@ export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 1000);
+    const timer = setTimeout(() => setIsLoaded(true), 4000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -91,17 +91,168 @@ export default function Portfolio() {
 
   if (!isLoaded) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-[hsl(var(--portfolio-bg-primary))]">
-        <motion.div
-          className="text-[hsl(var(--portfolio-accent))] text-6xl"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="animate-spin">
-            <i className="fas fa-code"></i>
+      <div className="fixed inset-0 flex items-center justify-center bg-[hsl(var(--portfolio-bg-primary))] overflow-hidden">
+        {/* Animated background particles */}
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-[hsl(var(--portfolio-accent))] rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+                y: [0, -100],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: i * 0.1,
+                ease: "easeOut"
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Main loading content */}
+        <div className="relative z-10 text-center">
+          {/* Rotating geometric loader */}
+          <motion.div
+            className="mb-8 relative"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, type: "spring", stiffness: 200 }}
+          >
+            <div className="relative w-24 h-24 mx-auto">
+              {/* Outer ring */}
+              <motion.div
+                className="absolute inset-0 border-4 border-[hsl(var(--portfolio-accent))]/30 rounded-full"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              />
+              
+              {/* Middle ring */}
+              <motion.div
+                className="absolute inset-2 border-4 border-purple-500/50 rounded-full border-t-transparent"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              />
+              
+              {/* Inner core */}
+              <motion.div
+                className="absolute inset-4 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-full"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.8, 1, 0.8],
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+              
+              {/* Center icon */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center text-[hsl(var(--portfolio-bg-primary))] text-xl"
+                animate={{ rotate: [0, 180, 360] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <i className="fas fa-code"></i>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Loading text with typewriter effect */}
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
+            <motion.h2
+              className="font-poppins font-bold text-3xl text-[hsl(var(--portfolio-accent))]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+            >
+              Yash Mahajan
+            </motion.h2>
+            
+            <motion.p
+              className="text-slate-300 text-lg"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+            >
+              Crafting Digital Experiences
+            </motion.p>
+            
+            {/* Loading progress bar */}
+            <motion.div
+              className="w-64 h-1 bg-slate-700 rounded-full mx-auto mt-6 overflow-hidden"
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={{ opacity: 1, scaleX: 1 }}
+              transition={{ delay: 1.1, duration: 0.5 }}
+            >
+              <motion.div
+                className="h-full bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ delay: 1.3, duration: 2.5, ease: "easeInOut" }}
+              />
+            </motion.div>
+            
+            {/* Loading percentage */}
+            <motion.div
+              className="text-sm text-slate-400 mt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5 }}
+            >
+              <motion.span
+                animate={{ opacity: [1, 0.5, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              >
+                Loading Portfolio...
+              </motion.span>
+            </motion.div>
+          </motion.div>
+
+          {/* Floating tech icons */}
+          <div className="absolute inset-0 pointer-events-none">
+            {[
+              { icon: "fab fa-react", delay: 0.5, x: -100, y: -50 },
+              { icon: "fab fa-js", delay: 0.7, x: 100, y: -30 },
+              { icon: "fab fa-node-js", delay: 0.9, x: -80, y: 80 },
+              { icon: "fab fa-python", delay: 1.1, x: 120, y: 60 },
+            ].map((item, i) => (
+              <motion.i
+                key={i}
+                className={`${item.icon} absolute text-2xl text-[hsl(var(--portfolio-accent))]/20`}
+                style={{ left: "50%", top: "50%" }}
+                initial={{ 
+                  opacity: 0, 
+                  x: 0, 
+                  y: 0,
+                  scale: 0 
+                }}
+                animate={{ 
+                  opacity: [0, 0.3, 0],
+                  x: item.x,
+                  y: item.y,
+                  scale: [0, 1, 0],
+                  rotate: [0, 360]
+                }}
+                transition={{ 
+                  delay: item.delay,
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -124,7 +275,7 @@ export default function Portfolio() {
               className="font-poppins font-bold text-xl text-[hsl(var(--portfolio-accent))]"
               whileHover={{ scale: 1.05 }}
             >
-              AC
+              YM
             </motion.div>
             <div className="hidden md:flex space-x-8">
               {["home", "about", "skills", "projects", "contact"].map((item) => (
@@ -178,7 +329,7 @@ export default function Portfolio() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                Alex Chen
+                Yash Mahajan
               </motion.h1>
               <motion.h2
                 className="font-poppins font-semibold text-4xl lg:text-5xl text-slate-400"
@@ -194,7 +345,7 @@ export default function Portfolio() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.1 }}
               >
-                I'm a passionate full-stack developer specializing in creating exceptional digital experiences with modern technologies and innovative design patterns.
+                A dynamic and versatile tech enthusiast who turns dreams into reality.
               </motion.p>
               <motion.div
                 className="flex space-x-4 pt-4"
@@ -285,7 +436,7 @@ export default function Portfolio() {
               <div className="relative glass rounded-2xl p-2">
                 <motion.img
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800"
-                  alt="Alex Chen - Professional Photo"
+                  alt="Yash Mahajan - Professional Photo"
                   className="rounded-xl w-full max-w-md mx-auto"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -896,7 +1047,7 @@ export default function Portfolio() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <p className="text-slate-400">&copy; 2024 Alex Chen. Built with passion and lots of coffee.</p>
+              <p className="text-slate-400">&copy; 2024 Yash Mahajan. Built with passion and lots of coffee.</p>
             </div>
             <div className="flex space-x-6">
               {[
