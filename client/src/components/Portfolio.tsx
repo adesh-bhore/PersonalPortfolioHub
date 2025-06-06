@@ -6,6 +6,7 @@ import GeometricShape from "./GeometricShape";
 import SkillCard from "./SkillCard";
 import ProjectCard from "./ProjectCard";
 import ContactForm from "./ContactForm";
+import SpecialtyCard from "./SpecialtyCard";
 
 const skills = [
   { name: "React", icon: "fab fa-react", color: "text-blue-400" },
@@ -399,7 +400,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Introduction/Overview Section */}
       <section id="about" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-primary))] relative overflow-hidden">
         {/* Floating geometric shapes */}
         <motion.div
@@ -428,122 +429,110 @@ export default function Portfolio() {
         />
         
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="text-center space-y-16">
+            {/* Section Header */}
             <motion.div
-              className="relative"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              className="space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              {/* Animated border effect */}
-              <motion.div
-                className="absolute -inset-1 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-2xl blur opacity-30"
-                animate={{
-                  scale: [1, 1.05, 1],
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-              <div className="relative glass rounded-2xl p-2">
-                <motion.img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800"
-                  alt="Yash Mahajan - Professional Photo"
-                  className="rounded-xl w-full max-w-md mx-auto"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                />
-              </div>
-              
-              {/* Floating tech icons */}
-              <motion.div
-                className="absolute -top-4 -right-4 w-8 h-8 bg-[hsl(var(--portfolio-accent))] rounded-full flex items-center justify-center text-[hsl(var(--portfolio-bg-primary))] text-sm"
-                animate={{
-                  y: [0, -10, 0],
-                  rotate: [0, 180, 360],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <motion.p
+                className="text-[hsl(var(--portfolio-accent))] font-mono text-lg tracking-wider uppercase"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                viewport={{ once: true }}
               >
-                <i className="fab fa-react"></i>
+                Introduction
+              </motion.p>
+              <motion.h2 
+                className="font-poppins font-bold text-5xl lg:text-6xl text-slate-100"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                Overview.
+              </motion.h2>
+              <motion.p
+                className="text-lg text-slate-300 max-w-4xl mx-auto leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                viewport={{ once: true }}
+              >
+                I'm a skilled software developer with experience in Java, C, C++, Python and Javascript
+                and expertise in frameworks like Django, React.js, Node.js, and Next.js . I'm a quick learner
+                and collaborate closely with clients to create efficient, scalable, and user-friendly
+                solutions that solve real-world problems. Let's work together to bring your ideas to life!
+              </motion.p>
+              
+              {/* Social Links */}
+              <motion.div
+                className="flex justify-center gap-6 pt-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                viewport={{ once: true }}
+              >
+                {[
+                  { name: "GitHub", icon: "fab fa-github", url: "#" },
+                  { name: "LinkedIn", icon: "fab fa-linkedin", url: "#" },
+                  { name: "LeetCode", icon: "fas fa-code", url: "#" },
+                  { name: "See CV", icon: "fas fa-file-alt", url: "#" }
+                ].map((link, index) => (
+                  <motion.button
+                    key={link.name}
+                    className="glass px-6 py-3 rounded-lg font-medium text-slate-300 hover:text-[hsl(var(--portfolio-accent))] hover:border-[hsl(var(--portfolio-accent))] transition-all duration-300 magnetic-btn border border-slate-600"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9 + index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <i className={`${link.icon} mr-2`}></i>
+                    {link.name}
+                  </motion.button>
+                ))}
               </motion.div>
             </motion.div>
 
+            {/* Specialty Cards Grid */}
             <motion.div
-              className="space-y-8"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
+              style={{ perspective: '1000px' }}
             >
-              <motion.h2 
-                className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))]"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                About Me
-              </motion.h2>
-              
-              <div className="space-y-6">
-                {[
-                  "My journey into web development started during my computer science studies, where I discovered my passion for creating beautiful, functional digital experiences. What began as curiosity about how websites work has evolved into a deep love for crafting pixel-perfect interfaces and robust backend systems.",
-                  "I specialize in modern JavaScript ecosystems, with expertise in React, Next.js, and Node.js. My approach combines technical precision with creative design thinking, ensuring every project not only functions flawlessly but also delivers an exceptional user experience.",
-                  "When I'm not coding, you'll find me exploring the latest web technologies, contributing to open-source projects, or experimenting with 3D graphics and interactive animations. I believe the future of web development lies in immersive, performance-optimized experiences."
-                ].map((text, index) => (
-                  <motion.p
-                    key={index}
-                    className="text-lg text-slate-300 leading-relaxed"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + index * 0.2 }}
-                    viewport={{ once: true }}
-                  >
-                    {text}
-                  </motion.p>
-                ))}
-              </div>
-              
-              {/* Animated stats */}
-              <motion.div
-                className="grid grid-cols-3 gap-6 pt-8"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.1 }}
-                viewport={{ once: true }}
-              >
-                {[
-                  { number: "50+", label: "Projects" },
-                  { number: "3+", label: "Years Exp" },
-                  { number: "15+", label: "Tech Stack" }
-                ].map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    className="text-center glass rounded-xl p-4"
-                    whileHover={{ scale: 1.05, y: -5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <motion.div
-                      className="text-2xl font-bold text-[hsl(var(--portfolio-accent))]"
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ delay: 1.3 + index * 0.1, type: "spring", stiffness: 200 }}
-                      viewport={{ once: true }}
-                    >
-                      {stat.number}
-                    </motion.div>
-                    <div className="text-slate-400 text-sm">{stat.label}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
+              <SpecialtyCard
+                title="Full Stack Developer"
+                icon="&#x1F4BB;"
+                gradient="bg-gradient-to-br from-blue-500 to-purple-600"
+                index={0}
+              />
+              <SpecialtyCard
+                title="Android Developer"
+                icon="&#x1F4F1;"
+                gradient="bg-gradient-to-br from-green-500 to-teal-600"
+                index={1}
+              />
+              <SpecialtyCard
+                title="Problem Solver"
+                icon="&#x1F9E9;"
+                gradient="bg-gradient-to-br from-purple-500 to-pink-600"
+                index={2}
+              />
+              <SpecialtyCard
+                title="Machine Learning Enthusiast"
+                icon="&#x1F916;"
+                gradient="bg-gradient-to-br from-orange-500 to-red-600"
+                index={3}
+              />
             </motion.div>
           </div>
         </div>
