@@ -10,6 +10,7 @@ import SpecialtyCard from "./SpecialtyCard";
 import HexagonalSkill from "./HexagonalSkill";
 import ModernProjectCard from "./ModernProjectCard";
 import DiagonalBendCard from "./DiagonalBendCard";
+import ModernContactForm from "./ModernContactForm";
 
 const skills = [
   { name: "React", icon: "fab fa-react", color: "text-blue-400" },
@@ -995,6 +996,8 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
+
+      <ModernContactForm />
 
       {/* Footer */}
       <footer className="bg-[hsl(var(--portfolio-bg-primary))] py-12 border-t border-slate-700">
