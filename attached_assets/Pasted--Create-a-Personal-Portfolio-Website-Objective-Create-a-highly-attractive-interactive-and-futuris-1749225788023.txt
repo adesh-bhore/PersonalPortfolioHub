@@ -1,0 +1,65 @@
+ Create a Personal Portfolio Website
+Objective:
+Create a highly attractive, interactive, and futuristic personal portfolio website for a developer. The design should be immersive, leveraging modern UI/UX principles, advanced animations, and a central 3D interactive element.
+
+Core Persona:
+The portfolio is for a forward-thinking Full-Stack Developer who is passionate about creating beautiful, high-performance user experiences. The overall vibe should be professional yet creative, minimalist yet deeply engaging.
+
+1. Core Technologies & Setup
+Framework: Next.js (for performance, SSR, and routing).
+Language: TypeScript.
+Styling: Tailwind CSS. Ensure the setup is clean, using a globals.css file for base styles and utility classes for components.
+2D Animation: Framer Motion. This is critical for all UI animations, page transitions, and micro-interactions.
+3D Graphics & Animation: React Three Fiber (R3F) and the Drei helper library. This is for the main 3D hero element and other 3D effects.
+2. Overall Design, Aesthetics & Feel
+Theme: A sleek, modern "dark mode" primary theme. Use a color palette of deep space blues and dark charcoals (#0a192f, #112240), accented with a vibrant, electric cyan (#64ffda) or purple for highlights, CTAs, and interactive elements.
+Layout: A single-page scrolling experience is preferred. Each section should take up the full viewport height (min-h-screen) for an immersive, story-like flow.
+Typography: Use a modern, clean font pairing from Google Fonts.
+Headings: Poppins (Bold, 700).
+Body/Paragraphs: Inter (Regular, 400).
+UI Style: Employ "Glassmorphism" for UI cards and modals. This means semi-transparent, blurred backgrounds with a subtle border, giving a "frosted glass" look.
+Background: The background should not be static. Use a subtle, slow-moving animated gradient or a particle animation that reacts subtly to mouse movement.
+3. Global Animations & Interactivity (The "Wow" Factors)
+Custom Cursor: Implement a custom cursor. It could be a simple dot that inverts color based on the background, or a more complex one with a trailing light effect.
+Pre-Loader Animation: Before the site loads, display a visually captivating loading animation. This could be the site's logo or an abstract shape assembling itself.
+Scroll-Triggered Animations: As the user scrolls down, elements in each section should animate into view (fade in, slide up, scale up). Use Framer Motion's whileInView prop.
+Magnetic Buttons: Buttons and interactive links should have a "magnetic" effect, where they pull towards the cursor when it gets close.
+4. Section-by-Section Breakdown
+Section 1: Hero Section
+Layout: Centered content, occupying the full screen.
+Content:
+Line 1: "Hi, my name is" (small text).
+Line 2: "[Your Name]" (large, bold heading).
+Line 3: "I build things for the web." (medium, slightly faded subheading).
+A short, compelling one-sentence pitch about your specialty.
+Central Animation (The 3D Element):
+Using React Three Fiber, create an interactive 3D model that floats in the center or to the side of the text.
+Idea 1 (Abstract): A complex, rotating geometric shape (like a platonic solid or a torus knot) with a shimmering, reflective material that reacts to mouse movement. The user should be able to click and drag to rotate it.
+Idea 2 (Literal): A 3D representation of your tech stack icons (e.g., React, Node.js logos) orbiting a central point.
+The 3D model should cast a subtle, dynamic light onto the background.
+Section 2: About Me
+Layout: A two-column layout on desktop. Left side for a professional-looking photo, right side for text.
+Content: A brief 2-3 paragraph bio about your journey, passion for development, and what you're currently interested in.
+Animation: The photo and text block should slide in from opposite sides as the user scrolls to this section.
+Section 3: Skills / Tech Stack
+Layout: A grid of skill icons.
+Animation & Interactivity:
+Each skill should be represented by its official logo (e.g., React, TypeScript, AWS icons).
+On hover, the icon should have a vibrant glow effect, lift up slightly, and display the name of the skill in a clean tooltip. The animation should be springy and satisfying.
+Section 4: Projects
+Layout: A responsive grid (or a "Bento Grid") showcasing 3-4 of your best projects.
+Animation & Interactivity:
+Use the 3D animated flip card we previously designed.
+Front: Shows a high-quality screenshot or video of the project, the project title, and a short tagline.
+On Hover/Click: The card performs a 3D flip.
+Back: Reveals a detailed description, tech stack used (with small icons), and links to the live site and GitHub repository.
+Section 5: Contact Me
+Layout: A clean, centered contact form.
+Content: A heading like "Get In Touch" or "What's Next?". The form should have fields for Name, Email, and Message.
+Animation & Interactivity:
+The input field labels should float up as the user starts typing.
+The submit button should be the animated buy/submit button we designed. On click, it should transform into a loading state and then a success "Message Sent!" state with a checkmark.
+5. Final Requirements
+Responsiveness: The entire website must be perfectly responsive and look stunning on all devices, from large desktops to mobile phones.
+Code Quality: The final code should be clean, well-commented, and organized into reusable React components.
+Performance: Optimize where possible. Lazy-load images and consider performance implications of the 3D models.
