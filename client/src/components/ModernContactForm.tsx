@@ -231,7 +231,7 @@ export default function ModernContactForm() {
             transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <div className="relative w-96 h-96">
+            <div className="relative w-96 h-96 rounded-full overflow-hidden">
               {/* Background Integration Layer */}
               <div 
                 className="absolute inset-0 rounded-full"
@@ -273,7 +273,7 @@ export default function ModernContactForm() {
 
               {/* Astronaut with blended background */}
               <motion.div
-                className="relative w-full h-full"
+                className="relative w-full h-full rounded-full overflow-hidden"
                 animate={{
                   y: [-15, 15, -15],
                 }}
@@ -286,7 +286,7 @@ export default function ModernContactForm() {
                 <img
                   src={astronautImage}
                   alt="Astronaut in space"
-                  className="w-full h-full object-contain relative z-10"
+                  className="w-full h-full object-cover relative z-10 rounded-full"
                   style={{
                     filter: 'contrast(1.1) brightness(1.05)',
                     mixBlendMode: 'normal',
@@ -295,7 +295,7 @@ export default function ModernContactForm() {
                 
                 {/* Background mask to blend edges */}
                 <div 
-                  className="absolute inset-0 z-0"
+                  className="absolute inset-0 z-0 rounded-full"
                   style={{
                     background: `
                       radial-gradient(ellipse at center, 
