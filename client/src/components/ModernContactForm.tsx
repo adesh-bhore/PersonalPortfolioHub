@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import astronautImage from "@assets/image_1749233296554.png";
+import astronautImage from "@assets/image_1749233651579.png";
 import { useToast } from "@/hooks/use-toast";
 
 const contactSchema = z.object({
