@@ -353,25 +353,36 @@ export default function Portfolio() {
                 A dynamic and versatile tech enthusiast who turns dreams into reality.
               </motion.p>
               <motion.div
-                className="flex space-x-4 pt-4"
+                className="flex flex-wrap gap-3 pt-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.3 }}
               >
                 <motion.button
-                  className="magnetic-btn glass px-8 py-4 rounded-lg font-semibold text-[hsl(var(--portfolio-accent))] hover:bg-[hsl(var(--portfolio-accent))] hover:text-[hsl(var(--portfolio-bg-primary))] transition-all duration-300"
+                  className="magnetic-btn bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 px-6 py-2.5 rounded-lg font-medium text-[hsl(var(--portfolio-bg-primary))] hover:opacity-90 transition-all duration-300 text-sm"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToSection("projects")}
                 >
-                  View My Work
+                  <i className="fas fa-eye mr-2"></i>
+                  View Work
                 </motion.button>
                 <motion.button
-                  className="magnetic-btn border-2 border-[hsl(var(--portfolio-accent))] px-8 py-4 rounded-lg font-semibold text-[hsl(var(--portfolio-accent))] hover:bg-[hsl(var(--portfolio-accent))] hover:text-[hsl(var(--portfolio-bg-primary))] transition-all duration-300"
+                  className="magnetic-btn border border-[hsl(var(--portfolio-accent))] px-6 py-2.5 rounded-lg font-medium text-[hsl(var(--portfolio-accent))] hover:bg-[hsl(var(--portfolio-accent))] hover:text-[hsl(var(--portfolio-bg-primary))] transition-all duration-300 text-sm"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Download Resume
+                  <i className="fas fa-download mr-2"></i>
+                  Download CV
+                </motion.button>
+                <motion.button
+                  className="magnetic-btn glass px-6 py-2.5 rounded-lg font-medium text-purple-400 hover:bg-purple-400 hover:text-[hsl(var(--portfolio-bg-primary))] transition-all duration-300 text-sm"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => window.open('https://leetcode.com/yashmahajan', '_blank')}
+                >
+                  <i className="fas fa-code mr-2"></i>
+                  LeetCode
                 </motion.button>
               </motion.div>
             </motion.div>
