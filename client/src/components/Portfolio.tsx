@@ -233,120 +233,660 @@ export default function Portfolio() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-primary))]">
-        <div className="container mx-auto px-6">
+      <section id="about" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-primary))] relative overflow-hidden">
+        {/* Floating geometric shapes */}
+        <motion.div
+          className="absolute top-20 left-10 w-16 h-16 border-2 border-[hsl(var(--portfolio-accent))] rounded-lg opacity-20"
+          animate={{
+            rotate: [0, 360],
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-32 right-20 w-12 h-12 bg-[hsl(var(--portfolio-accent))] rounded-full opacity-10"
+          animate={{
+            scale: [1, 1.5, 1],
+            x: [0, 20, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
+              className="relative"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800"
-                alt="Alex Chen - Professional Photo"
-                className="rounded-2xl shadow-2xl w-full max-w-md mx-auto glass p-1"
+              {/* Animated border effect */}
+              <motion.div
+                className="absolute -inset-1 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-2xl blur opacity-30"
+                animate={{
+                  scale: [1, 1.05, 1],
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               />
+              <div className="relative glass rounded-2xl p-2">
+                <motion.img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800"
+                  alt="Alex Chen - Professional Photo"
+                  className="rounded-xl w-full max-w-md mx-auto"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                />
+              </div>
+              
+              {/* Floating tech icons */}
+              <motion.div
+                className="absolute -top-4 -right-4 w-8 h-8 bg-[hsl(var(--portfolio-accent))] rounded-full flex items-center justify-center text-[hsl(var(--portfolio-bg-primary))] text-sm"
+                animate={{
+                  y: [0, -10, 0],
+                  rotate: [0, 180, 360],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <i className="fab fa-react"></i>
+              </motion.div>
             </motion.div>
 
             <motion.div
-              className="space-y-6"
+              className="space-y-8"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))]">
+              <motion.h2 
+                className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                viewport={{ once: true }}
+              >
                 About Me
-              </h2>
-              <div className="space-y-4 text-lg text-slate-300 leading-relaxed">
-                <p>
-                  My journey into web development started during my computer science studies, where I discovered my passion for creating beautiful, functional digital experiences. What began as curiosity about how websites work has evolved into a deep love for crafting pixel-perfect interfaces and robust backend systems.
-                </p>
-                <p>
-                  I specialize in modern JavaScript ecosystems, with expertise in React, Next.js, and Node.js. My approach combines technical precision with creative design thinking, ensuring every project not only functions flawlessly but also delivers an exceptional user experience.
-                </p>
-                <p>
-                  When I'm not coding, you'll find me exploring the latest web technologies, contributing to open-source projects, or experimenting with 3D graphics and interactive animations. I believe the future of web development lies in immersive, performance-optimized experiences.
-                </p>
+              </motion.h2>
+              
+              <div className="space-y-6">
+                {[
+                  "My journey into web development started during my computer science studies, where I discovered my passion for creating beautiful, functional digital experiences. What began as curiosity about how websites work has evolved into a deep love for crafting pixel-perfect interfaces and robust backend systems.",
+                  "I specialize in modern JavaScript ecosystems, with expertise in React, Next.js, and Node.js. My approach combines technical precision with creative design thinking, ensuring every project not only functions flawlessly but also delivers an exceptional user experience.",
+                  "When I'm not coding, you'll find me exploring the latest web technologies, contributing to open-source projects, or experimenting with 3D graphics and interactive animations. I believe the future of web development lies in immersive, performance-optimized experiences."
+                ].map((text, index) => (
+                  <motion.p
+                    key={index}
+                    className="text-lg text-slate-300 leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 + index * 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    {text}
+                  </motion.p>
+                ))}
               </div>
+              
+              {/* Animated stats */}
+              <motion.div
+                className="grid grid-cols-3 gap-6 pt-8"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1 }}
+                viewport={{ once: true }}
+              >
+                {[
+                  { number: "50+", label: "Projects" },
+                  { number: "3+", label: "Years Exp" },
+                  { number: "15+", label: "Tech Stack" }
+                ].map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    className="text-center glass rounded-xl p-4"
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <motion.div
+                      className="text-2xl font-bold text-[hsl(var(--portfolio-accent))]"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      transition={{ delay: 1.3 + index * 0.1, type: "spring", stiffness: 200 }}
+                      viewport={{ once: true }}
+                    >
+                      {stat.number}
+                    </motion.div>
+                    <div className="text-slate-400 text-sm">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-secondary))]">
-        <div className="container mx-auto px-6">
+      <section id="skills" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-secondary))] relative overflow-hidden">
+        {/* Animated background elements */}
+        <motion.div
+          className="absolute top-0 left-0 w-full h-full"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-[hsl(var(--portfolio-accent))] rounded-full opacity-20"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                opacity: [0.2, 0.6, 0.2],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </motion.div>
+
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))] mb-4">
+            <motion.h2 
+              className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))] mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              viewport={{ once: true }}
+            >
               Skills & Technologies
-            </h2>
-            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-slate-300 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              viewport={{ once: true }}
+            >
               A comprehensive toolkit for building modern, scalable web applications
-            </p>
+            </motion.p>
+            
+            {/* Animated divider */}
+            <motion.div
+              className="w-24 h-1 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 mx-auto mt-6 rounded-full"
+              initial={{ width: 0 }}
+              whileInView={{ width: 96 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              viewport={{ once: true }}
+            />
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+          {/* Skills grid with enhanced animations */}
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            viewport={{ once: true }}
+          >
             {skills.map((skill, index) => (
-              <SkillCard key={skill.name} skill={skill} index={index} />
+              <motion.div
+                key={skill.name}
+                initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  delay: 0.1 * index,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 10
+                }}
+                viewport={{ once: true }}
+              >
+                <SkillCard skill={skill} index={index} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
+
+          {/* Interactive skill level visualization */}
+          <motion.div
+            className="mt-20 glass rounded-2xl p-8"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-poppins font-bold text-2xl text-[hsl(var(--portfolio-accent))] mb-8 text-center">
+              Expertise Level
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { category: "Frontend", level: 95, color: "from-blue-500 to-cyan-400" },
+                { category: "Backend", level: 88, color: "from-green-500 to-emerald-400" },
+                { category: "DevOps", level: 75, color: "from-purple-500 to-pink-400" },
+                { category: "Design", level: 82, color: "from-orange-500 to-red-400" }
+              ].map((item, index) => (
+                <motion.div
+                  key={item.category}
+                  className="text-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.7 + index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <h4 className="font-semibold text-slate-200 mb-3">{item.category}</h4>
+                  <div className="relative w-20 h-20 mx-auto">
+                    <svg className="w-20 h-20 transform -rotate-90" viewBox="0 0 100 100">
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="40"
+                        stroke="currentColor"
+                        strokeWidth="8"
+                        fill="transparent"
+                        className="text-slate-700"
+                      />
+                      <motion.circle
+                        cx="50"
+                        cy="50"
+                        r="40"
+                        stroke="url(#gradient)"
+                        strokeWidth="8"
+                        fill="transparent"
+                        strokeLinecap="round"
+                        initial={{ strokeDasharray: "0 251.2" }}
+                        whileInView={{ strokeDasharray: `${item.level * 2.512} 251.2` }}
+                        transition={{ delay: 1.9 + index * 0.1, duration: 1.5, ease: "easeOut" }}
+                        viewport={{ once: true }}
+                      />
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#64ffda" />
+                          <stop offset="100%" stopColor="#a855f7" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      transition={{ delay: 2.2 + index * 0.1 }}
+                      viewport={{ once: true }}
+                    >
+                      <span className="text-sm font-bold text-[hsl(var(--portfolio-accent))]">
+                        {item.level}%
+                      </span>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-primary))]">
-        <div className="container mx-auto px-6">
+      <section id="projects" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-primary))] relative overflow-hidden">
+        {/* Dynamic background grid */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `
+              linear-gradient(rgba(100, 255, 218, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(100, 255, 218, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }} />
+        </div>
+
+        {/* Floating project icons */}
+        <motion.div
+          className="absolute top-20 right-20 w-8 h-8 text-[hsl(var(--portfolio-accent))] opacity-30"
+          animate={{
+            rotate: [0, 360],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        >
+          <i className="fas fa-code text-2xl"></i>
+        </motion.div>
+        
+        <motion.div
+          className="absolute bottom-40 left-16 w-6 h-6 text-purple-400 opacity-20"
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, -180, -360],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <i className="fas fa-laptop-code text-xl"></i>
+        </motion.div>
+
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))] mb-4">
+            <motion.h2 
+              className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))] mb-6"
+              initial={{ opacity: 0, rotateX: -90 }}
+              whileInView={{ opacity: 1, rotateX: 0 }}
+              transition={{ delay: 0.2, duration: 0.8, type: "spring" }}
+              viewport={{ once: true }}
+            >
               Featured Projects
-            </h2>
-            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-slate-300 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              viewport={{ once: true }}
+            >
               A showcase of my recent work, featuring modern web applications with cutting-edge technologies
-            </p>
+            </motion.p>
+
+            {/* Animated progress bar */}
+            <motion.div
+              className="w-32 h-1 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] via-purple-500 to-[hsl(var(--portfolio-accent))] mx-auto mt-8 rounded-full"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              transition={{ delay: 0.6, duration: 1.2 }}
+              viewport={{ once: true }}
+            />
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Enhanced projects grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
             {projects.map((project, index) => (
-              <ProjectCard key={project.title} project={project} index={index} />
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 80, rotateY: -15 }}
+                whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+                transition={{ 
+                  delay: index * 0.2,
+                  duration: 0.8,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                viewport={{ once: true }}
+                whileHover={{ 
+                  y: -10,
+                  transition: { duration: 0.3 }
+                }}
+              >
+                <ProjectCard project={project} index={index} />
+              </motion.div>
             ))}
           </div>
+
+          {/* Call to action */}
+          <motion.div
+            className="text-center mt-20"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className="glass rounded-2xl p-8 max-w-2xl mx-auto"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="font-poppins font-bold text-2xl text-slate-200 mb-4">
+                Interested in collaborating?
+              </h3>
+              <p className="text-slate-400 mb-6">
+                I'm always excited to work on innovative projects and bring creative ideas to life.
+              </p>
+              <motion.button
+                className="magnetic-btn bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 text-[hsl(var(--portfolio-bg-primary))] px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-[hsl(var(--portfolio-accent))]/25"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => scrollToSection("contact")}
+              >
+                <span className="mr-2">Let's Talk</span>
+                <i className="fas fa-arrow-right"></i>
+              </motion.button>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-secondary))]">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
+      <section id="contact" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-secondary))] relative overflow-hidden">
+        {/* Animated background elements */}
+        <motion.div
+          className="absolute top-1/4 left-10 w-32 h-32 border border-[hsl(var(--portfolio-accent))] rounded-full opacity-10"
+          animate={{
+            scale: [1, 1.5, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+        
+        <motion.div
+          className="absolute bottom-20 right-16 w-20 h-20 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-lg opacity-5"
+          animate={{
+            y: [0, -30, 0],
+            rotateZ: [0, 45, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        {/* Contact icons floating */}
+        <motion.div
+          className="absolute top-32 right-1/4 text-[hsl(var(--portfolio-accent))] opacity-20"
+          animate={{
+            y: [0, -15, 0],
+            rotate: [0, 360],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <i className="fas fa-envelope text-3xl"></i>
+        </motion.div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-6xl mx-auto">
             <motion.div
-              className="text-center mb-16"
+              className="text-center mb-20"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))] mb-4">
+              <motion.h2 
+                className="font-poppins font-bold text-4xl lg:text-6xl text-[hsl(var(--portfolio-accent))] mb-6"
+                initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
+                whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+                transition={{ delay: 0.2, duration: 1, type: "spring", stiffness: 150 }}
+                viewport={{ once: true }}
+              >
                 What's Next?
-              </h2>
-              <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+              </motion.h2>
+              <motion.p 
+                className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                viewport={{ once: true }}
+              >
                 I'm always interested in new opportunities and exciting projects. Let's create something amazing together!
-              </p>
+              </motion.p>
+
+              {/* Animated contact methods */}
+              <motion.div
+                className="flex justify-center space-x-8 mt-12"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                viewport={{ once: true }}
+              >
+                {[
+                  { icon: "fas fa-envelope", label: "Email", href: "mailto:alex@example.com" },
+                  { icon: "fab fa-linkedin", label: "LinkedIn", href: "#" },
+                  { icon: "fab fa-github", label: "GitHub", href: "#" },
+                  { icon: "fab fa-twitter", label: "Twitter", href: "#" }
+                ].map((contact, index) => (
+                  <motion.a
+                    key={contact.label}
+                    href={contact.href}
+                    className="glass p-4 rounded-xl text-center group magnetic-btn"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 + index * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ 
+                      scale: 1.1, 
+                      y: -5,
+                      boxShadow: "0 10px 25px rgba(100, 255, 218, 0.2)"
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <motion.i
+                      className={`${contact.icon} text-2xl text-[hsl(var(--portfolio-accent))] mb-2 block`}
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    <span className="text-sm text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {contact.label}
+                    </span>
+                  </motion.a>
+                ))}
+              </motion.div>
             </motion.div>
 
-            <ContactForm />
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              {/* Contact form */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.0, duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <ContactForm />
+              </motion.div>
+
+              {/* Contact info and additional details */}
+              <motion.div
+                className="space-y-8"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2, duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                {/* Quick contact info */}
+                <motion.div
+                  className="glass rounded-2xl p-8"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <h3 className="font-poppins font-bold text-2xl text-[hsl(var(--portfolio-accent))] mb-6">
+                    Let's Connect
+                  </h3>
+                  <div className="space-y-4">
+                    {[
+                      { icon: "fas fa-map-marker-alt", text: "San Francisco, CA" },
+                      { icon: "fas fa-envelope", text: "alex.chen@example.com" },
+                      { icon: "fas fa-phone", text: "+1 (555) 123-4567" },
+                      { icon: "fas fa-clock", text: "Available Mon-Fri, 9AM-6PM PST" }
+                    ].map((item, index) => (
+                      <motion.div
+                        key={index}
+                        className="flex items-center space-x-4"
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 1.4 + index * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        <div className="w-12 h-12 bg-[hsl(var(--portfolio-accent))]/10 rounded-lg flex items-center justify-center">
+                          <i className={`${item.icon} text-[hsl(var(--portfolio-accent))]`}></i>
+                        </div>
+                        <span className="text-slate-300">{item.text}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Response time info */}
+                <motion.div
+                  className="glass rounded-2xl p-6 text-center"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.8, type: "spring", stiffness: 200 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                >
+                  <motion.div
+                    className="w-16 h-16 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4"
+                    animate={{
+                      rotate: [0, 360],
+                    }}
+                    transition={{
+                      duration: 10,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    <i className="fas fa-rocket text-[hsl(var(--portfolio-bg-primary))] text-xl"></i>
+                  </motion.div>
+                  <h4 className="font-semibold text-slate-200 mb-2">Quick Response</h4>
+                  <p className="text-slate-400 text-sm">
+                    I typically respond to messages within 24 hours. Looking forward to hearing from you!
+                  </p>
+                </motion.div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
