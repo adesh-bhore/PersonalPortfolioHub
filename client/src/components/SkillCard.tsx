@@ -104,7 +104,7 @@ export default function SkillCard({ skill, index }: SkillCardProps) {
         <motion.h3 
           className="font-semibold text-slate-200 relative"
           animate={{
-            color: isHovered ? "hsl(var(--portfolio-accent))" : "rgb(226 232 240)"
+            color: isHovered ? "#64ffda" : "#e2e8f0"
           }}
           transition={{ duration: 0.3 }}
         >
