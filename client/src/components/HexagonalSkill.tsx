@@ -11,145 +11,131 @@ export default function HexagonalSkill({ name, icon, color, index }: HexagonalSk
   return (
     <motion.div
       className="flex flex-col items-center group"
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ 
-        duration: 0.8,
-        delay: index * 0.1,
+        duration: 0.6,
+        delay: index * 0.08,
         ease: "easeOut"
       }}
       viewport={{ once: true }}
-      whileHover={{ 
-        scale: 1.05,
-        rotateY: 5,
-        rotateX: 5
-      }}
-      style={{ perspective: '1000px' }}
+      whileHover={{ scale: 1.05 }}
     >
-      {/* 3D Paper-Wrapped Hexagonal Tile */}
-      <div className="relative w-24 h-24 mb-3" style={{ transformStyle: 'preserve-3d' }}>
-        {/* Main hexagonal container */}
-        <div className="relative w-full h-full">
-          {/* Background shadow/depth layer */}
+      {/* Exact 3D Hexagon from Reference */}
+      <div className="relative w-20 h-20 mb-3">
+        {/* Outer shadow */}
+        <div
+          className="absolute inset-0 transform translate-x-1 translate-y-2"
+          style={{
+            clipPath: 'polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)',
+            background: 'rgba(0, 0, 0, 0.4)',
+            filter: 'blur(4px)',
+          }}
+        />
+        
+        {/* Main hexagon body */}
+        <div
+          className="absolute inset-0"
+          style={{
+            clipPath: 'polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)',
+            background: `
+              linear-gradient(135deg, 
+                #ffffff 0%,
+                #f1f5f9 20%,
+                #e2e8f0 40%,
+                #cbd5e1 60%,
+                #94a3b8 80%,
+                #64748b 100%
+              )
+            `,
+          }}
+        >
+          {/* Top left highlight facet */}
           <div
-            className="absolute inset-0 transform translate-x-1 translate-y-1"
+            className="absolute"
             style={{
-              clipPath: 'polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)',
-              background: 'linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%)',
-              filter: 'blur(2px)',
+              clipPath: 'polygon(25% 6.7%, 50% 0%, 75% 6.7%, 50% 20%)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+              width: '100%',
+              height: '100%',
             }}
           />
           
-          {/* Main paper hexagon with 3D effect */}
+          {/* Top right facet */}
           <div
-            className="absolute inset-0 transform transition-all duration-300 group-hover:translate-y-[-2px]"
+            className="absolute"
             style={{
-              clipPath: 'polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)',
+              clipPath: 'polygon(75% 6.7%, 100% 50%, 87% 35%, 50% 20%)',
+              background: 'linear-gradient(45deg, #f1f5f9 0%, #e2e8f0 100%)',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          
+          {/* Bottom right facet */}
+          <div
+            className="absolute"
+            style={{
+              clipPath: 'polygon(100% 50%, 75% 93.3%, 50% 80%, 87% 65%)',
+              background: 'linear-gradient(315deg, #94a3b8 0%, #64748b 100%)',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          
+          {/* Bottom left facet */}
+          <div
+            className="absolute"
+            style={{
+              clipPath: 'polygon(25% 93.3%, 0% 50%, 13% 65%, 50% 80%)',
+              background: 'linear-gradient(225deg, #cbd5e1 0%, #94a3b8 100%)',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          
+          {/* Left facet */}
+          <div
+            className="absolute"
+            style={{
+              clipPath: 'polygon(0% 50%, 25% 6.7%, 50% 20%, 13% 35%)',
+              background: 'linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%)',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+          
+          {/* Center flat area */}
+          <div
+            className="absolute flex items-center justify-center"
+            style={{
+              clipPath: 'polygon(50% 20%, 87% 35%, 87% 65%, 50% 80%, 13% 65%, 13% 35%)',
               background: `
-                linear-gradient(135deg, 
-                  #f8fafc 0%, 
-                  #e2e8f0 25%, 
-                  #cbd5e1 50%, 
-                  #94a3b8 75%, 
-                  #64748b 100%
-                ),
-                linear-gradient(45deg, 
-                  rgba(255,255,255,0.9) 0%, 
-                  rgba(255,255,255,0.7) 50%, 
-                  rgba(255,255,255,0.4) 100%
+                linear-gradient(145deg, 
+                  #ffffff 0%,
+                  #f8fafc 30%,
+                  #f1f5f9 100%
                 )
               `,
-              boxShadow: `
-                inset 2px 2px 4px rgba(255,255,255,0.8),
-                inset -2px -2px 4px rgba(0,0,0,0.1),
-                0 4px 8px rgba(0,0,0,0.2),
-                0 2px 4px rgba(0,0,0,0.1)
-              `,
+              width: '100%',
+              height: '100%',
             }}
           >
-            {/* Inner content area */}
-            <div
-              className="absolute inset-3 flex items-center justify-center"
-              style={{
-                clipPath: 'polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)',
-                background: `
-                  radial-gradient(circle at 30% 30%, 
-                    rgba(255,255,255,0.9) 0%, 
-                    rgba(248,250,252,0.8) 50%, 
-                    rgba(241,245,249,0.7) 100%
-                  )
-                `,
+            <div 
+              className="text-lg font-bold"
+              style={{ 
+                color: color,
+                textShadow: '0 1px 2px rgba(0,0,0,0.1)',
               }}
             >
-              {/* Icon with proper styling */}
-              <div 
-                className="text-2xl font-bold transition-all duration-300 group-hover:scale-110"
-                style={{ 
-                  color: color,
-                  filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))',
-                }}
-              >
-                {icon}
-              </div>
+              {icon}
             </div>
-            
-            {/* Paper texture overlay */}
-            <div
-              className="absolute inset-0 opacity-20"
-              style={{
-                clipPath: 'polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)',
-                background: `
-                  repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 1px,
-                    rgba(0,0,0,0.02) 1px,
-                    rgba(0,0,0,0.02) 2px
-                  ),
-                  repeating-linear-gradient(
-                    -45deg,
-                    transparent,
-                    transparent 1px,
-                    rgba(0,0,0,0.01) 1px,
-                    rgba(0,0,0,0.01) 2px
-                  )
-                `,
-              }}
-            />
-            
-            {/* Subtle border highlight */}
-            <div
-              className="absolute inset-0"
-              style={{
-                clipPath: 'polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)',
-                background: 'transparent',
-                border: '1px solid rgba(255,255,255,0.3)',
-                borderRadius: '2px',
-              }}
-            />
           </div>
-          
-          {/* Reflection effect */}
-          <div
-            className="absolute inset-0 transform transition-all duration-300 group-hover:opacity-80"
-            style={{
-              clipPath: 'polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)',
-              background: `
-                linear-gradient(125deg, 
-                  rgba(255,255,255,0.6) 0%, 
-                  transparent 30%, 
-                  transparent 70%, 
-                  rgba(255,255,255,0.2) 100%
-                )
-              `,
-              opacity: 0.5,
-            }}
-          />
         </div>
       </div>
       
       {/* Skill name */}
-      <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors duration-200 text-center">
+      <span className="text-xs font-medium text-slate-400 group-hover:text-slate-200 transition-colors duration-200 text-center max-w-16">
         {name}
       </span>
     </motion.div>
