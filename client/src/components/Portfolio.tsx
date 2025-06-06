@@ -8,6 +8,7 @@ import ProjectCard from "./ProjectCard";
 import ContactForm from "./ContactForm";
 import SpecialtyCard from "./SpecialtyCard";
 import HexagonalSkill from "./HexagonalSkill";
+import ModernProjectCard from "./ModernProjectCard";
 
 const skills = [
   { name: "React", icon: "fab fa-react", color: "text-blue-400" },
@@ -799,27 +800,10 @@ export default function Portfolio() {
             />
           </motion.div>
 
-          {/* Enhanced projects grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* Modern 3D Projects Grid */}
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto" style={{ perspective: '2000px' }}>
             {projects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 80, rotateY: -15 }}
-                whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-                transition={{ 
-                  delay: index * 0.2,
-                  duration: 0.8,
-                  type: "spring",
-                  stiffness: 100
-                }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  y: -10,
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <ProjectCard project={project} index={index} />
-              </motion.div>
+              <ModernProjectCard key={project.title} project={project} index={index} />
             ))}
           </div>
 
