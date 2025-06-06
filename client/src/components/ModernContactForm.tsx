@@ -222,7 +222,7 @@ export default function ModernContactForm() {
             </motion.form>
           </motion.div>
 
-          {/* Right Side - Advanced 3D Sphere */}
+          {/* Right Side - Earth Globe with Ribbon Bands */}
           <motion.div
             className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.5 }}
@@ -230,201 +230,193 @@ export default function ModernContactForm() {
             transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <div className="relative w-96 h-96" style={{ perspective: '1000px' }}>
-              {/* Main Sphere Container */}
+            <div className="relative w-96 h-96" style={{ perspective: '1200px' }}>
+              {/* Main Globe Container */}
               <motion.div
                 className="absolute inset-0"
                 animate={{
                   rotateY: [0, 360],
                 }}
                 transition={{
-                  duration: 30,
+                  duration: 40,
                   repeat: Infinity,
                   ease: "linear"
                 }}
               >
-                {/* Multiple Layered Rings - Horizontal */}
-                {[...Array(6)].map((_, i) => (
-                  <motion.div
-                    key={`horizontal-${i}`}
-                    className="absolute inset-0 border rounded-full"
+                {/* Central Earth Globe */}
+                <div 
+                  className="absolute inset-16 rounded-full shadow-2xl"
+                  style={{
+                    background: `
+                      radial-gradient(circle at 30% 30%, #2563eb 0%, #1e40af 25%, #1e3a8a 50%),
+                      radial-gradient(circle at 60% 70%, #059669 0%, #047857 30%, #065f46 60%),
+                      radial-gradient(circle at 80% 20%, #0891b2 0%, #0e7490 40%, #155e75 70%),
+                      conic-gradient(from 45deg, #1e40af, #059669, #0891b2, #7c3aed, #1e40af)
+                    `,
+                    backgroundSize: '100% 100%, 80% 80%, 60% 60%, 100% 100%',
+                    backgroundPosition: '0% 0%, 20% 30%, 40% 10%, 0% 0%',
+                  }}
+                >
+                  {/* Continent-like patterns */}
+                  <div 
+                    className="absolute inset-0 rounded-full opacity-70"
                     style={{
-                      borderWidth: i === 2 ? '3px' : '2px',
-                      borderColor: i % 3 === 0 ? 'rgba(100, 255, 218, 0.6)' : 
-                                   i % 3 === 1 ? 'rgba(168, 85, 247, 0.4)' : 'rgba(59, 130, 246, 0.3)',
-                      transform: `rotateX(${i * 30}deg) scale(${0.95 - i * 0.03})`,
-                      borderStyle: i === 2 || i === 4 ? 'dashed' : 'solid',
-                    }}
-                    animate={{
-                      rotateZ: [0, 360],
-                    }}
-                    transition={{
-                      duration: 20 + i * 3,
-                      repeat: Infinity,
-                      ease: "linear",
-                      direction: i % 2 === 0 ? "normal" : "reverse"
+                      background: `
+                        radial-gradient(ellipse at 25% 40%, #10b981 0%, transparent 40%),
+                        radial-gradient(ellipse at 70% 30%, #10b981 0%, transparent 35%),
+                        radial-gradient(ellipse at 45% 70%, #059669 0%, transparent 30%),
+                        radial-gradient(ellipse at 80% 60%, #047857 0%, transparent 25%)
+                      `
                     }}
                   />
-                ))}
-
-                {/* Vertical Rings */}
-                {[...Array(4)].map((_, i) => (
-                  <motion.div
-                    key={`vertical-${i}`}
-                    className="absolute inset-0 border-2 rounded-full"
+                  
+                  {/* Ocean highlights */}
+                  <div 
+                    className="absolute inset-0 rounded-full opacity-50"
                     style={{
-                      borderColor: i % 2 === 0 ? 'rgba(34, 197, 94, 0.4)' : 'rgba(251, 191, 36, 0.3)',
-                      transform: `rotateY(${i * 45}deg) rotateX(90deg) scale(${0.9 - i * 0.02})`,
-                    }}
-                    animate={{
-                      rotateZ: [0, -360],
-                    }}
-                    transition={{
-                      duration: 25 + i * 2,
-                      repeat: Infinity,
-                      ease: "linear"
+                      background: `
+                        radial-gradient(circle at 60% 40%, rgba(59, 130, 246, 0.8) 0%, transparent 30%),
+                        radial-gradient(circle at 20% 80%, rgba(14, 116, 144, 0.6) 0%, transparent 40%)
+                      `
                     }}
                   />
-                ))}
+                </div>
 
-                {/* Diagonal Rings */}
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={`diagonal-${i}`}
-                    className="absolute inset-0 border-2 rounded-full"
-                    style={{
-                      borderColor: 'rgba(236, 72, 153, 0.3)',
-                      transform: `rotateX(${45 + i * 30}deg) rotateY(${30 + i * 20}deg) scale(${0.85 - i * 0.05})`,
-                      borderStyle: 'dotted',
-                    }}
-                    animate={{
-                      rotateZ: [0, 360],
-                    }}
-                    transition={{
-                      duration: 18 + i * 4,
-                      repeat: Infinity,
-                      ease: "linear",
-                      direction: "reverse"
-                    }}
-                  />
-                ))}
-                
-                {/* Inner Layered Cores */}
-                <motion.div
-                  className="absolute inset-16 bg-gradient-to-br from-[hsl(var(--portfolio-accent))] via-purple-500 to-blue-500 rounded-full opacity-15"
-                  animate={{
-                    scale: [1, 1.3, 1],
-                    opacity: [0.15, 0.35, 0.15],
-                    rotateZ: [0, 180, 360],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-                
-                <motion.div
-                  className="absolute inset-24 bg-gradient-to-br from-purple-500 via-pink-500 to-[hsl(var(--portfolio-accent))] rounded-full opacity-20"
-                  animate={{
-                    scale: [1.2, 0.8, 1.2],
-                    opacity: [0.2, 0.4, 0.2],
-                    rotateZ: [360, 180, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-
-                {/* Complex Floating Particles */}
-                {[...Array(20)].map((_, i) => {
-                  const angle = (i * 360) / 20;
-                  const radius = 140 + Math.sin(i) * 20;
+                {/* Flowing Ribbon Bands */}
+                {[...Array(12)].map((_, i) => {
+                  const baseRotation = i * 30;
+                  const tilt = Math.sin(i * 0.5) * 20;
                   return (
                     <motion.div
-                      key={`particle-${i}`}
-                      className="absolute w-1.5 h-1.5 rounded-full"
+                      key={`ribbon-${i}`}
+                      className="absolute inset-0"
                       style={{
-                        backgroundColor: i % 4 === 0 ? '#64ffda' : 
-                                        i % 4 === 1 ? '#a855f7' : 
-                                        i % 4 === 2 ? '#3b82f6' : '#10b981',
-                        left: `${50 + Math.cos(angle * Math.PI / 180) * radius / 2}%`,
-                        top: `${50 + Math.sin(angle * Math.PI / 180) * radius / 2}%`,
-                        transform: 'translate(-50%, -50%)',
+                        transform: `rotateY(${baseRotation}deg) rotateX(${tilt}deg)`,
                       }}
                       animate={{
-                        y: [0, -15, 0],
-                        x: [0, Math.cos((angle + i * 10) * Math.PI / 180) * 10, 0],
-                        opacity: [0.3, 1, 0.3],
-                        scale: [0.5, 1.2, 0.5],
                         rotateZ: [0, 360],
                       }}
                       transition={{
-                        duration: 3 + Math.random() * 2,
+                        duration: 25 + i * 2,
                         repeat: Infinity,
-                        delay: i * 0.1,
-                        ease: "easeInOut"
+                        ease: "linear",
+                        direction: i % 2 === 0 ? "normal" : "reverse"
                       }}
-                    />
+                    >
+                      {/* Ribbon Band */}
+                      <div
+                        className="absolute rounded-full border-0"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          background: `conic-gradient(from ${i * 45}deg, 
+                            rgba(190, 24, 93, ${0.15 + i * 0.02}),
+                            rgba(147, 51, 234, ${0.2 + i * 0.015}),
+                            rgba(79, 70, 229, ${0.18 + i * 0.02}),
+                            rgba(59, 130, 246, ${0.25 + i * 0.01}),
+                            rgba(14, 165, 233, ${0.2 + i * 0.015}),
+                            rgba(6, 182, 212, ${0.15 + i * 0.02}),
+                            rgba(190, 24, 93, ${0.15 + i * 0.02})
+                          )`,
+                          clipPath: `polygon(
+                            ${10 + i * 2}% ${20 + Math.sin(i) * 10}%,
+                            ${90 - i * 2}% ${25 + Math.cos(i) * 8}%,
+                            ${85 - i * 1.5}% ${75 - Math.sin(i * 2) * 10}%,
+                            ${15 + i * 1.5}% ${70 - Math.cos(i * 1.5) * 8}%
+                          )`,
+                          filter: 'blur(0.5px)',
+                        }}
+                      />
+                    </motion.div>
                   );
                 })}
 
-                {/* Orbital Trails */}
-                {[...Array(3)].map((_, i) => (
+                {/* Additional Flowing Bands with Different Orientations */}
+                {[...Array(8)].map((_, i) => {
+                  const rotation = i * 45 + 22.5;
+                  return (
+                    <motion.div
+                      key={`flow-band-${i}`}
+                      className="absolute inset-0"
+                      style={{
+                        transform: `rotateX(${60 + i * 15}deg) rotateY(${rotation}deg)`,
+                      }}
+                      animate={{
+                        rotateZ: [0, -360],
+                      }}
+                      transition={{
+                        duration: 30 + i * 3,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      <div
+                        className="absolute rounded-full"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          background: `linear-gradient(${i * 45}deg, 
+                            rgba(236, 72, 153, ${0.1 + i * 0.015}),
+                            rgba(167, 103, 223, ${0.15 + i * 0.01}),
+                            rgba(99, 102, 241, ${0.12 + i * 0.015}),
+                            rgba(59, 130, 246, ${0.18 + i * 0.01})
+                          )`,
+                          clipPath: `ellipse(${40 + i * 3}% ${15 + i * 2}% at 50% 50%)`,
+                          filter: 'blur(1px)',
+                        }}
+                      />
+                    </motion.div>
+                  );
+                })}
+
+                {/* Organic Flowing Streams */}
+                {[...Array(6)].map((_, i) => (
                   <motion.div
-                    key={`trail-${i}`}
-                    className="absolute inset-8 border rounded-full"
-                    style={{
-                      borderWidth: '1px',
-                      borderColor: `rgba(100, 255, 218, ${0.1 + i * 0.05})`,
-                      borderStyle: 'dashed',
-                      transform: `rotateX(${i * 60}deg) rotateY(${i * 40}deg)`,
-                    }}
+                    key={`stream-${i}`}
+                    className="absolute inset-0"
                     animate={{
-                      rotateZ: [0, -360],
-                      scale: [1, 1.05, 1],
+                      rotateY: [0, 360],
+                      rotateX: [i * 10, (i * 10) + 360],
                     }}
                     transition={{
-                      duration: 35 + i * 5,
+                      duration: 35 + i * 4,
                       repeat: Infinity,
                       ease: "linear"
                     }}
-                  />
+                  >
+                    <div
+                      className="absolute rounded-full"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        background: `conic-gradient(from ${i * 60}deg,
+                          transparent,
+                          rgba(147, 197, 253, ${0.2 + i * 0.02}),
+                          rgba(196, 181, 253, ${0.15 + i * 0.01}),
+                          rgba(251, 146, 206, ${0.18 + i * 0.015}),
+                          transparent
+                        )`,
+                        clipPath: `path('M 50,0 Q ${20 + i * 10},25 50,50 Q ${80 - i * 10},75 50,100 Q ${20 + i * 10},75 50,50 Q ${80 - i * 10},25 50,0 Z')`,
+                        filter: 'blur(2px)',
+                      }}
+                    />
+                  </motion.div>
                 ))}
-
-                {/* Central Energy Burst */}
-                <motion.div
-                  className="absolute inset-32 rounded-full"
-                  style={{
-                    background: 'radial-gradient(circle, rgba(100,255,218,0.3) 0%, rgba(168,85,247,0.2) 50%, transparent 100%)',
-                  }}
-                  animate={{
-                    scale: [0.8, 1.4, 0.8],
-                    opacity: [0.2, 0.6, 0.2],
-                  }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
               </motion.div>
 
-              {/* Outer Glow Effect */}
+              {/* Ambient Glow */}
               <motion.div
-                className="absolute inset-0 rounded-full opacity-20"
+                className="absolute inset-0 rounded-full"
                 style={{
-                  background: 'radial-gradient(circle, transparent 40%, rgba(100,255,218,0.1) 70%, rgba(168,85,247,0.1) 100%)',
-                  filter: 'blur(20px)',
+                  background: 'radial-gradient(circle, transparent 30%, rgba(147, 197, 253, 0.1) 60%, rgba(196, 181, 253, 0.15) 80%, transparent 100%)',
+                  filter: 'blur(30px)',
                 }}
                 animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.2, 0.4, 0.2],
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.6, 0.3],
                 }}
                 transition={{
-                  duration: 4,
+                  duration: 6,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
