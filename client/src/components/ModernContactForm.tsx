@@ -222,7 +222,7 @@ export default function ModernContactForm() {
             </motion.form>
           </motion.div>
 
-          {/* Right Side - Earth Globe with Ribbon Bands */}
+          {/* Right Side - Realistic 3D Sphere */}
           <motion.div
             className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.5 }}
@@ -230,122 +230,142 @@ export default function ModernContactForm() {
             transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <div className="relative w-96 h-96" style={{ perspective: '1200px' }}>
-              {/* Main Globe Container */}
+            <div className="relative w-96 h-96" style={{ perspective: '2000px' }}>
+              {/* Main Sphere Container */}
               <motion.div
                 className="absolute inset-0"
                 animate={{
                   rotateY: [0, 360],
                 }}
                 transition={{
-                  duration: 40,
+                  duration: 50,
                   repeat: Infinity,
                   ease: "linear"
                 }}
+                style={{ transformStyle: 'preserve-3d' }}
               >
-                {/* Central Earth Globe */}
+                {/* Core Earth Sphere with Realistic Lighting */}
                 <div 
-                  className="absolute inset-16 rounded-full shadow-2xl"
+                  className="absolute inset-20 rounded-full"
                   style={{
                     background: `
-                      radial-gradient(circle at 30% 30%, #2563eb 0%, #1e40af 25%, #1e3a8a 50%),
-                      radial-gradient(circle at 60% 70%, #059669 0%, #047857 30%, #065f46 60%),
-                      radial-gradient(circle at 80% 20%, #0891b2 0%, #0e7490 40%, #155e75 70%),
-                      conic-gradient(from 45deg, #1e40af, #059669, #0891b2, #7c3aed, #1e40af)
+                      radial-gradient(ellipse 100% 80% at 35% 25%, 
+                        #87ceeb 0%, 
+                        #4682b4 15%, 
+                        #228b22 25%, 
+                        #32cd32 35%, 
+                        #4682b4 45%, 
+                        #1e90ff 55%, 
+                        #228b22 65%, 
+                        #32cd32 75%, 
+                        #4682b4 85%, 
+                        #191970 100%
+                      ),
+                      radial-gradient(circle at 70% 30%, rgba(50, 205, 50, 0.8) 0%, transparent 30%),
+                      radial-gradient(circle at 20% 60%, rgba(34, 139, 34, 0.9) 0%, transparent 25%),
+                      radial-gradient(circle at 80% 70%, rgba(70, 130, 180, 0.7) 0%, transparent 35%)
                     `,
-                    backgroundSize: '100% 100%, 80% 80%, 60% 60%, 100% 100%',
-                    backgroundPosition: '0% 0%, 20% 30%, 40% 10%, 0% 0%',
+                    boxShadow: `
+                      inset -40px -40px 80px rgba(0, 0, 50, 0.8),
+                      inset 20px 20px 40px rgba(135, 206, 235, 0.3),
+                      0 0 100px rgba(100, 149, 237, 0.4)
+                    `,
+                    filter: 'contrast(1.2) saturate(1.1)',
                   }}
                 >
-                  {/* Continent-like patterns */}
+                  {/* Surface Details */}
                   <div 
-                    className="absolute inset-0 rounded-full opacity-70"
+                    className="absolute inset-0 rounded-full opacity-80"
                     style={{
                       background: `
-                        radial-gradient(ellipse at 25% 40%, #10b981 0%, transparent 40%),
-                        radial-gradient(ellipse at 70% 30%, #10b981 0%, transparent 35%),
-                        radial-gradient(ellipse at 45% 70%, #059669 0%, transparent 30%),
-                        radial-gradient(ellipse at 80% 60%, #047857 0%, transparent 25%)
+                        radial-gradient(ellipse at 15% 35%, rgba(139, 69, 19, 0.6) 0%, transparent 20%),
+                        radial-gradient(ellipse at 85% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 25%),
+                        radial-gradient(ellipse at 60% 80%, rgba(34, 139, 34, 0.8) 0%, transparent 30%),
+                        radial-gradient(ellipse at 30% 70%, rgba(70, 130, 180, 0.6) 0%, transparent 40%)
                       `
                     }}
                   />
                   
-                  {/* Ocean highlights */}
+                  {/* Atmospheric Glow */}
                   <div 
-                    className="absolute inset-0 rounded-full opacity-50"
+                    className="absolute inset-0 rounded-full"
                     style={{
-                      background: `
-                        radial-gradient(circle at 60% 40%, rgba(59, 130, 246, 0.8) 0%, transparent 30%),
-                        radial-gradient(circle at 20% 80%, rgba(14, 116, 144, 0.6) 0%, transparent 40%)
-                      `
+                      background: 'radial-gradient(circle at 40% 30%, rgba(135, 206, 235, 0.4) 0%, transparent 70%)',
+                      filter: 'blur(1px)',
                     }}
                   />
                 </div>
 
-                {/* Flowing Ribbon Bands */}
-                {[...Array(12)].map((_, i) => {
-                  const baseRotation = i * 30;
-                  const tilt = Math.sin(i * 0.5) * 20;
+                {/* 3D Ribbon Bands - Multiple Layers */}
+                {[...Array(15)].map((_, i) => {
+                  const rotation = i * 24;
+                  const tilt = Math.sin(i * 0.3) * 30 + (i * 6);
+                  const scale = 0.95 + Math.sin(i * 0.2) * 0.1;
+                  
                   return (
                     <motion.div
-                      key={`ribbon-${i}`}
+                      key={`ribbon-layer-${i}`}
                       className="absolute inset-0"
                       style={{
-                        transform: `rotateY(${baseRotation}deg) rotateX(${tilt}deg)`,
+                        transform: `rotateY(${rotation}deg) rotateX(${tilt}deg) rotateZ(${i * 12}deg) scale(${scale})`,
+                        transformStyle: 'preserve-3d',
                       }}
                       animate={{
                         rotateZ: [0, 360],
                       }}
                       transition={{
-                        duration: 25 + i * 2,
+                        duration: 30 + i * 3,
                         repeat: Infinity,
                         ease: "linear",
                         direction: i % 2 === 0 ? "normal" : "reverse"
                       }}
                     >
-                      {/* Ribbon Band */}
+                      {/* Ribbon with 3D depth */}
                       <div
-                        className="absolute rounded-full border-0"
+                        className="absolute rounded-full"
                         style={{
                           width: '100%',
                           height: '100%',
-                          background: `conic-gradient(from ${i * 45}deg, 
-                            rgba(190, 24, 93, ${0.15 + i * 0.02}),
-                            rgba(147, 51, 234, ${0.2 + i * 0.015}),
-                            rgba(79, 70, 229, ${0.18 + i * 0.02}),
-                            rgba(59, 130, 246, ${0.25 + i * 0.01}),
-                            rgba(14, 165, 233, ${0.2 + i * 0.015}),
-                            rgba(6, 182, 212, ${0.15 + i * 0.02}),
-                            rgba(190, 24, 93, ${0.15 + i * 0.02})
-                          )`,
+                          background: `
+                            linear-gradient(${45 + i * 30}deg, 
+                              rgba(255, 182, 193, ${0.3 + Math.sin(i) * 0.1}) 0%,
+                              rgba(221, 160, 221, ${0.4 + Math.cos(i) * 0.1}) 20%,
+                              rgba(173, 216, 230, ${0.35 + Math.sin(i * 2) * 0.1}) 40%,
+                              rgba(176, 196, 222, ${0.3 + Math.cos(i * 2) * 0.1}) 60%,
+                              rgba(230, 230, 250, ${0.25 + Math.sin(i * 3) * 0.1}) 80%,
+                              rgba(255, 192, 203, ${0.3 + Math.cos(i * 3) * 0.1}) 100%
+                            )
+                          `,
                           clipPath: `polygon(
-                            ${10 + i * 2}% ${20 + Math.sin(i) * 10}%,
-                            ${90 - i * 2}% ${25 + Math.cos(i) * 8}%,
-                            ${85 - i * 1.5}% ${75 - Math.sin(i * 2) * 10}%,
-                            ${15 + i * 1.5}% ${70 - Math.cos(i * 1.5) * 8}%
+                            ${Math.max(5, 20 - i)}% ${Math.max(10, 30 - i * 2)}%,
+                            ${Math.min(95, 80 + i)}% ${Math.max(10, 25 - i)}%,
+                            ${Math.min(90, 75 + i * 2)}% ${Math.min(90, 70 + i * 2)}%,
+                            ${Math.max(10, 25 - i)}% ${Math.min(85, 75 + i)}%
                           )`,
-                          filter: 'blur(0.5px)',
+                          filter: `blur(${0.5 + i * 0.1}px) drop-shadow(0 ${2 + i}px ${4 + i * 2}px rgba(0,0,0,0.3))`,
+                          transform: `translateZ(${i * 2}px)`,
                         }}
                       />
                     </motion.div>
                   );
                 })}
 
-                {/* Additional Flowing Bands with Different Orientations */}
-                {[...Array(8)].map((_, i) => {
-                  const rotation = i * 45 + 22.5;
+                {/* Additional Curved Flow Bands */}
+                {[...Array(10)].map((_, i) => {
+                  const angle = i * 36;
                   return (
                     <motion.div
-                      key={`flow-band-${i}`}
+                      key={`flow-curve-${i}`}
                       className="absolute inset-0"
                       style={{
-                        transform: `rotateX(${60 + i * 15}deg) rotateY(${rotation}deg)`,
+                        transform: `rotateX(${75 + i * 10}deg) rotateY(${angle}deg) rotateZ(${i * 18}deg)`,
+                        transformStyle: 'preserve-3d',
                       }}
                       animate={{
-                        rotateZ: [0, -360],
+                        rotateY: [0, 360],
                       }}
                       transition={{
-                        duration: 30 + i * 3,
+                        duration: 40 + i * 4,
                         repeat: Infinity,
                         ease: "linear"
                       }}
@@ -355,31 +375,40 @@ export default function ModernContactForm() {
                         style={{
                           width: '100%',
                           height: '100%',
-                          background: `linear-gradient(${i * 45}deg, 
-                            rgba(236, 72, 153, ${0.1 + i * 0.015}),
-                            rgba(167, 103, 223, ${0.15 + i * 0.01}),
-                            rgba(99, 102, 241, ${0.12 + i * 0.015}),
-                            rgba(59, 130, 246, ${0.18 + i * 0.01})
-                          )`,
-                          clipPath: `ellipse(${40 + i * 3}% ${15 + i * 2}% at 50% 50%)`,
-                          filter: 'blur(1px)',
+                          background: `
+                            conic-gradient(from ${i * 45}deg,
+                              transparent 0%,
+                              rgba(255, 105, 180, ${0.25 + i * 0.02}) 15%,
+                              rgba(138, 43, 226, ${0.3 + i * 0.015}) 35%,
+                              rgba(75, 0, 130, ${0.2 + i * 0.02}) 55%,
+                              rgba(70, 130, 180, ${0.25 + i * 0.01}) 75%,
+                              transparent 100%
+                            )
+                          `,
+                          clipPath: `ellipse(${35 + i * 4}% ${12 + i * 2}% at 50% 50%)`,
+                          filter: `blur(${1 + i * 0.2}px) brightness(${1.2 + i * 0.1})`,
+                          transform: `translateZ(${-i * 3}px)`,
                         }}
                       />
                     </motion.div>
                   );
                 })}
 
-                {/* Organic Flowing Streams */}
-                {[...Array(6)].map((_, i) => (
+                {/* Swirling Streams */}
+                {[...Array(8)].map((_, i) => (
                   <motion.div
-                    key={`stream-${i}`}
+                    key={`swirl-${i}`}
                     className="absolute inset-0"
+                    style={{
+                      transform: `rotateX(${i * 22.5}deg) rotateY(${i * 45}deg)`,
+                      transformStyle: 'preserve-3d',
+                    }}
                     animate={{
-                      rotateY: [0, 360],
-                      rotateX: [i * 10, (i * 10) + 360],
+                      rotateZ: [0, 360],
+                      rotateY: [0, 720],
                     }}
                     transition={{
-                      duration: 35 + i * 4,
+                      duration: 45 + i * 5,
                       repeat: Infinity,
                       ease: "linear"
                     }}
@@ -389,34 +418,62 @@ export default function ModernContactForm() {
                       style={{
                         width: '100%',
                         height: '100%',
-                        background: `conic-gradient(from ${i * 60}deg,
-                          transparent,
-                          rgba(147, 197, 253, ${0.2 + i * 0.02}),
-                          rgba(196, 181, 253, ${0.15 + i * 0.01}),
-                          rgba(251, 146, 206, ${0.18 + i * 0.015}),
-                          transparent
-                        )`,
-                        clipPath: `path('M 50,0 Q ${20 + i * 10},25 50,50 Q ${80 - i * 10},75 50,100 Q ${20 + i * 10},75 50,50 Q ${80 - i * 10},25 50,0 Z')`,
-                        filter: 'blur(2px)',
+                        background: `
+                          radial-gradient(ellipse at 50% 50%,
+                            transparent 30%,
+                            rgba(230, 230, 250, ${0.2 + i * 0.02}) 50%,
+                            rgba(176, 196, 222, ${0.15 + i * 0.015}) 70%,
+                            transparent 100%
+                          )
+                        `,
+                        clipPath: `path('M 50,0 Q ${20 + i * 8},30 50,60 Q ${80 - i * 8},90 50,100 Q ${20 + i * 6},70 50,40 Q ${80 - i * 6},10 50,0 Z')`,
+                        filter: `blur(${2 + i * 0.3}px) contrast(${1.1 + i * 0.1})`,
+                        transform: `translateZ(${i * 4}px)`,
                       }}
                     />
                   </motion.div>
                 ))}
               </motion.div>
 
-              {/* Ambient Glow */}
+              {/* Atmospheric Halo */}
               <motion.div
-                className="absolute inset-0 rounded-full"
+                className="absolute inset-0 rounded-full pointer-events-none"
                 style={{
-                  background: 'radial-gradient(circle, transparent 30%, rgba(147, 197, 253, 0.1) 60%, rgba(196, 181, 253, 0.15) 80%, transparent 100%)',
-                  filter: 'blur(30px)',
+                  background: `
+                    radial-gradient(circle, 
+                      transparent 25%, 
+                      rgba(173, 216, 230, 0.1) 50%, 
+                      rgba(176, 196, 222, 0.15) 70%, 
+                      rgba(230, 230, 250, 0.1) 85%, 
+                      transparent 100%
+                    )
+                  `,
+                  filter: 'blur(40px)',
                 }}
                 animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.6, 0.3],
+                  scale: [0.95, 1.15, 0.95],
+                  opacity: [0.3, 0.7, 0.3],
                 }}
                 transition={{
-                  duration: 6,
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+
+              {/* Light Reflection */}
+              <motion.div
+                className="absolute inset-24 rounded-full pointer-events-none"
+                style={{
+                  background: 'radial-gradient(ellipse at 35% 25%, rgba(255, 255, 255, 0.4) 0%, transparent 50%)',
+                  filter: 'blur(10px)',
+                }}
+                animate={{
+                  opacity: [0.2, 0.6, 0.2],
+                  scale: [0.8, 1.1, 0.8],
+                }}
+                transition={{
+                  duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
