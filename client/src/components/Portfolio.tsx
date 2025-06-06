@@ -356,38 +356,66 @@ export default function Portfolio() {
               >
                 A dynamic and versatile tech enthusiast who turns dreams into reality.
               </motion.p>
+              {/* Mouse Scroll Animation */}
               <motion.div
-                className="flex flex-wrap gap-3 pt-4"
+                className="flex justify-center pt-12"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.3 }}
+                transition={{ delay: 1.5 }}
               >
-                <motion.button
-                  className="magnetic-btn bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 px-6 py-2.5 rounded-lg font-medium text-[hsl(var(--portfolio-bg-primary))] hover:opacity-90 transition-all duration-300 text-sm"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => scrollToSection("projects")}
-                >
-                  <i className="fas fa-eye mr-2"></i>
-                  View Work
-                </motion.button>
-                <motion.button
-                  className="magnetic-btn border border-[hsl(var(--portfolio-accent))] px-6 py-2.5 rounded-lg font-medium text-[hsl(var(--portfolio-accent))] hover:bg-[hsl(var(--portfolio-accent))] hover:text-[hsl(var(--portfolio-bg-primary))] transition-all duration-300 text-sm"
-                  whileHover={{ scale: 1.05, y: -2 }}
+                <motion.div
+                  className="relative cursor-pointer group"
+                  onClick={() => scrollToSection("about")}
+                  whileHover={{ y: -5 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <i className="fas fa-download mr-2"></i>
-                  Download CV
-                </motion.button>
-                <motion.button
-                  className="magnetic-btn glass px-6 py-2.5 rounded-lg font-medium text-purple-400 hover:bg-purple-400 hover:text-[hsl(var(--portfolio-bg-primary))] transition-all duration-300 text-sm"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => window.open('https://leetcode.com/yashmahajan', '_blank')}
-                >
-                  <i className="fas fa-code mr-2"></i>
-                  LeetCode
-                </motion.button>
+                  {/* Mouse outline */}
+                  <div className="w-6 h-10 border-2 border-[hsl(var(--portfolio-accent))] rounded-full relative">
+                    {/* Scroll wheel */}
+                    <motion.div
+                      className="w-1 h-2 bg-[hsl(var(--portfolio-accent))] rounded-full mx-auto mt-2"
+                      animate={{
+                        y: [0, 8, 0],
+                        opacity: [1, 0.3, 1],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Scroll text */}
+                  <motion.p
+                    className="text-xs text-slate-400 mt-2 text-center font-mono tracking-wider"
+                    animate={{
+                      opacity: [0.7, 1, 0.7],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    SCROLL
+                  </motion.p>
+                  
+                  {/* Floating arrow */}
+                  <motion.div
+                    className="absolute -bottom-6 left-1/2 transform -translate-x-1/2"
+                    animate={{
+                      y: [0, 5, 0],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <i className="fas fa-chevron-down text-[hsl(var(--portfolio-accent))] text-xs"></i>
+                  </motion.div>
+                </motion.div>
               </motion.div>
             </motion.div>
 
@@ -643,80 +671,7 @@ export default function Portfolio() {
             </div>
           </motion.div>
 
-          {/* Interactive skill level visualization */}
-          <motion.div
-            className="mt-20 glass rounded-2xl p-8"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="font-poppins font-bold text-2xl text-[hsl(var(--portfolio-accent))] mb-8 text-center">
-              Expertise Level
-            </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { category: "Frontend", level: 95, color: "from-blue-500 to-cyan-400" },
-                { category: "Backend", level: 88, color: "from-green-500 to-emerald-400" },
-                { category: "DevOps", level: 75, color: "from-purple-500 to-pink-400" },
-                { category: "Design", level: 82, color: "from-orange-500 to-red-400" }
-              ].map((item, index) => (
-                <motion.div
-                  key={item.category}
-                  className="text-center"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.7 + index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <h4 className="font-semibold text-slate-200 mb-3">{item.category}</h4>
-                  <div className="relative w-20 h-20 mx-auto">
-                    <svg className="w-20 h-20 transform -rotate-90" viewBox="0 0 100 100">
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="40"
-                        stroke="currentColor"
-                        strokeWidth="8"
-                        fill="transparent"
-                        className="text-slate-700"
-                      />
-                      <motion.circle
-                        cx="50"
-                        cy="50"
-                        r="40"
-                        stroke="url(#gradient)"
-                        strokeWidth="8"
-                        fill="transparent"
-                        strokeLinecap="round"
-                        initial={{ strokeDasharray: "0 251.2" }}
-                        whileInView={{ strokeDasharray: `${item.level * 2.512} 251.2` }}
-                        transition={{ delay: 1.9 + index * 0.1, duration: 1.5, ease: "easeOut" }}
-                        viewport={{ once: true }}
-                      />
-                      <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#64ffda" />
-                          <stop offset="100%" stopColor="#a855f7" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    <motion.div
-                      className="absolute inset-0 flex items-center justify-center"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 2.2 + index * 0.1 }}
-                      viewport={{ once: true }}
-                    >
-                      <span className="text-sm font-bold text-[hsl(var(--portfolio-accent))]">
-                        {item.level}%
-                      </span>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+
         </div>
       </section>
 
