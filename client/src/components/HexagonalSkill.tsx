@@ -121,15 +121,13 @@ export default function HexagonalSkill({ name, icon, color, index }: HexagonalSk
               height: '100%',
             }}
           >
-            <div 
-              className="text-lg font-bold"
+            <i 
+              className={`${icon} text-lg`}
               style={{ 
                 color: color,
                 textShadow: '0 1px 2px rgba(0,0,0,0.1)',
               }}
-            >
-              {icon}
-            </div>
+            />
           </div>
         </div>
       </div>
