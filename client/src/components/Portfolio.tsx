@@ -9,6 +9,7 @@ import ContactForm from "./ContactForm";
 import SpecialtyCard from "./SpecialtyCard";
 import HexagonalSkill from "./HexagonalSkill";
 import ModernProjectCard from "./ModernProjectCard";
+import DiagonalBendCard from "./DiagonalBendCard";
 
 const skills = [
   { name: "React", icon: "fab fa-react", color: "text-blue-400" },
@@ -800,10 +801,10 @@ export default function Portfolio() {
             />
           </motion.div>
 
-          {/* Modern 3D Projects Grid */}
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto" style={{ perspective: '2000px' }}>
+          {/* Diagonal Bend Projects Grid */}
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto">
             {projects.map((project, index) => (
-              <ModernProjectCard key={project.title} project={project} index={index} />
+              <DiagonalBendCard key={project.title} project={project} index={index} />
             ))}
           </div>
 
