@@ -170,12 +170,14 @@ export default function Portfolio() {
             transition={{ delay: 0.5, duration: 0.8 }}
           >
             <motion.h2
-              className="font-poppins font-bold text-3xl text-[hsl(var(--portfolio-accent))]"
+              className="font-poppins font-bold text-3xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
-              Yash Mahajan
+              <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
+                Yash Mahajan
+              </span>
             </motion.h2>
             
             <motion.p
@@ -324,12 +326,15 @@ export default function Portfolio() {
                 Hi, my name is
               </motion.p>
               <motion.h1
-                className="font-poppins font-bold text-6xl lg:text-7xl text-slate-100"
+                className="font-poppins font-bold text-6xl lg:text-7xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                Yash Mahajan
+                <span className="text-slate-100">Hi, I'm </span>
+                <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
+                  Yash Mahajan
+                </span>
               </motion.h1>
               <motion.h2
                 className="font-poppins font-semibold text-4xl lg:text-5xl text-slate-400"
