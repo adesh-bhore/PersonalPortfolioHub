@@ -7,6 +7,7 @@ import SkillCard from "./SkillCard";
 import ProjectCard from "./ProjectCard";
 import ContactForm from "./ContactForm";
 import SpecialtyCard from "./SpecialtyCard";
+import HexagonalSkill from "./HexagonalSkill";
 
 const skills = [
   { name: "React", icon: "fab fa-react", color: "text-blue-400" },
@@ -606,30 +607,38 @@ export default function Portfolio() {
             />
           </motion.div>
 
-          {/* Skills grid with enhanced animations */}
+          {/* Hexagonal Skills Grid */}
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8"
+            className="flex flex-wrap justify-center items-center gap-6 max-w-6xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
             viewport={{ once: true }}
           >
-            {skills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
-                  delay: 0.1 * index,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 10
-                }}
-                viewport={{ once: true }}
-              >
-                <SkillCard skill={skill} index={index} />
-              </motion.div>
-            ))}
+            {/* First row - 7 hexagons */}
+            <div className="flex flex-wrap justify-center gap-4 mb-2">
+              {skills.slice(0, 7).map((skill, index) => (
+                <HexagonalSkill
+                  key={skill.name}
+                  name={skill.name}
+                  icon={skill.icon}
+                  color={skill.color}
+                  index={index}
+                />
+              ))}
+            </div>
+            {/* Second row - 5 hexagons (offset) */}
+            <div className="flex flex-wrap justify-center gap-4 -mt-4">
+              {skills.slice(7, 12).map((skill, index) => (
+                <HexagonalSkill
+                  key={skill.name}
+                  name={skill.name}
+                  icon={skill.icon}
+                  color={skill.color}
+                  index={index + 7}
+                />
+              ))}
+            </div>
           </motion.div>
 
           {/* Interactive skill level visualization */}

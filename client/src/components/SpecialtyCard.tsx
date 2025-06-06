@@ -69,8 +69,7 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
       <motion.div
         className="absolute inset-0 rounded-2xl border border-transparent"
         style={{
-          background: `linear-gradient(45deg, transparent, ${isHovered ? 'rgba(100, 255, 218, 0.3)' : 'transparent'}, transparent)`,
-          backgroundClip: 'padding-box',
+          backgroundImage: `linear-gradient(45deg, transparent, ${isHovered ? 'rgba(100, 255, 218, 0.3)' : 'transparent'}, transparent)`,
         }}
         animate={{
           opacity: isHovered ? 1 : 0,
