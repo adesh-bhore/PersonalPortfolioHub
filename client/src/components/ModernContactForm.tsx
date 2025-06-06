@@ -223,7 +223,7 @@ export default function ModernContactForm() {
             </motion.form>
           </motion.div>
 
-          {/* Right Side - Floating Astronaut */}
+          {/* Right Side - Integrated Astronaut */}
           <motion.div
             className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.5 }}
@@ -231,19 +231,108 @@ export default function ModernContactForm() {
             transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <motion.img
-              src={astronautImage}
-              alt="Floating astronaut in space"
-              className="w-96 h-96 object-contain"
-              animate={{
-                y: [-20, 20, -20],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
+            <div className="relative w-96 h-96">
+              {/* Background Integration Layer */}
+              <div 
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: `
+                    radial-gradient(circle at 40% 30%, 
+                      rgba(15, 23, 42, 0.9) 0%, 
+                      rgba(30, 41, 59, 0.8) 30%, 
+                      rgba(51, 65, 85, 0.7) 60%, 
+                      rgba(15, 23, 42, 0.95) 100%
+                    )
+                  `,
+                  filter: 'blur(20px)',
+                }}
+              />
+              
+              {/* Starfield Background */}
+              {[...Array(30)].map((_, i) => (
+                <motion.div
+                  key={`star-${i}`}
+                  className="absolute w-1 h-1 bg-white rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    opacity: Math.random() * 0.8 + 0.2,
+                  }}
+                  animate={{
+                    opacity: [0.2, 1, 0.2],
+                    scale: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 2 + Math.random() * 3,
+                    repeat: Infinity,
+                    delay: Math.random() * 2,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+
+              {/* Astronaut with blended background */}
+              <motion.div
+                className="relative w-full h-full"
+                animate={{
+                  y: [-15, 15, -15],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <img
+                  src={astronautImage}
+                  alt="Astronaut in space"
+                  className="w-full h-full object-contain relative z-10"
+                  style={{
+                    filter: 'contrast(1.1) brightness(1.05)',
+                    mixBlendMode: 'normal',
+                  }}
+                />
+                
+                {/* Background mask to blend edges */}
+                <div 
+                  className="absolute inset-0 z-0"
+                  style={{
+                    background: `
+                      radial-gradient(ellipse at center, 
+                        transparent 40%, 
+                        rgba(15, 23, 42, 0.3) 70%, 
+                        rgba(15, 23, 42, 0.8) 90%,
+                        rgba(15, 23, 42, 1) 100%
+                      )
+                    `,
+                  }}
+                />
+              </motion.div>
+
+              {/* Cosmic glow effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{
+                  background: `
+                    radial-gradient(circle, 
+                      rgba(139, 92, 246, 0.1) 0%, 
+                      rgba(59, 130, 246, 0.05) 40%, 
+                      transparent 70%
+                    )
+                  `,
+                  filter: 'blur(30px)',
+                }}
+                animate={{
+                  scale: [0.8, 1.2, 0.8],
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </div>
           </motion.div>
         </div>
       </div>
