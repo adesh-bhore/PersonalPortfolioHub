@@ -13,18 +13,18 @@ import DiagonalBendCard from "./DiagonalBendCard";
 import ModernContactForm from "./ModernContactForm";
 
 const skills = [
-  { name: "React", icon: "fab fa-react", color: "text-blue-400" },
-  { name: "TypeScript", icon: "fab fa-js", color: "text-blue-600" },
-  { name: "Next.js", icon: "fas fa-code", color: "text-slate-100" },
-  { name: "Tailwind", icon: "fab fa-css3-alt", color: "text-cyan-400" },
-  { name: "Node.js", icon: "fab fa-node-js", color: "text-green-500" },
-  { name: "Python", icon: "fab fa-python", color: "text-yellow-400" },
-  { name: "PostgreSQL", icon: "fas fa-database", color: "text-blue-300" },
-  { name: "MongoDB", icon: "fas fa-leaf", color: "text-green-400" },
-  { name: "AWS", icon: "fab fa-aws", color: "text-orange-400" },
-  { name: "Docker", icon: "fab fa-docker", color: "text-blue-500" },
-  { name: "Git", icon: "fab fa-git-alt", color: "text-red-500" },
-  { name: "Figma", icon: "fab fa-figma", color: "text-purple-400" },
+  { name: "React", icon: "fab fa-react", color: "#61DAFB" },
+  { name: "TypeScript", icon: "fab fa-js", color: "#007ACC" },
+  { name: "Next.js", icon: "fas fa-code", color: "#000000" },
+  { name: "Tailwind", icon: "fab fa-css3-alt", color: "#06B6D4" },
+  { name: "Node.js", icon: "fab fa-node-js", color: "#339933" },
+  { name: "Python", icon: "fab fa-python", color: "#3776AB" },
+  { name: "PostgreSQL", icon: "fas fa-database", color: "#336791" },
+  { name: "MongoDB", icon: "fas fa-leaf", color: "#47A248" },
+  { name: "AWS", icon: "fab fa-aws", color: "#FF9900" },
+  { name: "Docker", icon: "fab fa-docker", color: "#2496ED" },
+  { name: "Git", icon: "fab fa-git-alt", color: "#F05032" },
+  { name: "Figma", icon: "fab fa-figma", color: "#F24E1E" },
 ];
 
 const projects = [
