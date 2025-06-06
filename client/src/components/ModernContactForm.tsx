@@ -222,7 +222,7 @@ export default function ModernContactForm() {
             </motion.form>
           </motion.div>
 
-          {/* Right Side - 3D Sphere */}
+          {/* Right Side - Advanced 3D Sphere */}
           <motion.div
             className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.5 }}
@@ -230,47 +230,106 @@ export default function ModernContactForm() {
             transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <div className="relative w-96 h-96">
-              {/* Main Sphere */}
+            <div className="relative w-96 h-96" style={{ perspective: '1000px' }}>
+              {/* Main Sphere Container */}
               <motion.div
                 className="absolute inset-0"
                 animate={{
                   rotateY: [0, 360],
                 }}
                 transition={{
-                  duration: 20,
+                  duration: 30,
                   repeat: Infinity,
                   ease: "linear"
                 }}
               >
-                {/* Sphere Rings */}
-                {[...Array(8)].map((_, i) => (
+                {/* Multiple Layered Rings - Horizontal */}
+                {[...Array(6)].map((_, i) => (
                   <motion.div
-                    key={i}
-                    className="absolute inset-0 border-2 rounded-full"
+                    key={`horizontal-${i}`}
+                    className="absolute inset-0 border rounded-full"
                     style={{
-                      borderColor: i % 2 === 0 ? 'rgba(100, 255, 218, 0.3)' : 'rgba(168, 85, 247, 0.3)',
-                      transform: `rotateX(${i * 22.5}deg) scale(${1 - i * 0.05})`,
-                      borderStyle: i === 3 ? 'dashed' : 'solid',
+                      borderWidth: i === 2 ? '3px' : '2px',
+                      borderColor: i % 3 === 0 ? 'rgba(100, 255, 218, 0.6)' : 
+                                   i % 3 === 1 ? 'rgba(168, 85, 247, 0.4)' : 'rgba(59, 130, 246, 0.3)',
+                      transform: `rotateX(${i * 30}deg) scale(${0.95 - i * 0.03})`,
+                      borderStyle: i === 2 || i === 4 ? 'dashed' : 'solid',
                     }}
                     animate={{
                       rotateZ: [0, 360],
                     }}
                     transition={{
-                      duration: 15 + i * 2,
+                      duration: 20 + i * 3,
                       repeat: Infinity,
                       ease: "linear",
                       direction: i % 2 === 0 ? "normal" : "reverse"
                     }}
                   />
                 ))}
+
+                {/* Vertical Rings */}
+                {[...Array(4)].map((_, i) => (
+                  <motion.div
+                    key={`vertical-${i}`}
+                    className="absolute inset-0 border-2 rounded-full"
+                    style={{
+                      borderColor: i % 2 === 0 ? 'rgba(34, 197, 94, 0.4)' : 'rgba(251, 191, 36, 0.3)',
+                      transform: `rotateY(${i * 45}deg) rotateX(90deg) scale(${0.9 - i * 0.02})`,
+                    }}
+                    animate={{
+                      rotateZ: [0, -360],
+                    }}
+                    transition={{
+                      duration: 25 + i * 2,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  />
+                ))}
+
+                {/* Diagonal Rings */}
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={`diagonal-${i}`}
+                    className="absolute inset-0 border-2 rounded-full"
+                    style={{
+                      borderColor: 'rgba(236, 72, 153, 0.3)',
+                      transform: `rotateX(${45 + i * 30}deg) rotateY(${30 + i * 20}deg) scale(${0.85 - i * 0.05})`,
+                      borderStyle: 'dotted',
+                    }}
+                    animate={{
+                      rotateZ: [0, 360],
+                    }}
+                    transition={{
+                      duration: 18 + i * 4,
+                      repeat: Infinity,
+                      ease: "linear",
+                      direction: "reverse"
+                    }}
+                  />
+                ))}
                 
-                {/* Inner Glowing Core */}
+                {/* Inner Layered Cores */}
                 <motion.div
-                  className="absolute inset-20 bg-gradient-to-br from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-full opacity-20"
+                  className="absolute inset-16 bg-gradient-to-br from-[hsl(var(--portfolio-accent))] via-purple-500 to-blue-500 rounded-full opacity-15"
                   animate={{
-                    scale: [1, 1.2, 1],
+                    scale: [1, 1.3, 1],
+                    opacity: [0.15, 0.35, 0.15],
+                    rotateZ: [0, 180, 360],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                <motion.div
+                  className="absolute inset-24 bg-gradient-to-br from-purple-500 via-pink-500 to-[hsl(var(--portfolio-accent))] rounded-full opacity-20"
+                  animate={{
+                    scale: [1.2, 0.8, 1.2],
                     opacity: [0.2, 0.4, 0.2],
+                    rotateZ: [360, 180, 0],
                   }}
                   transition={{
                     duration: 3,
@@ -278,30 +337,98 @@ export default function ModernContactForm() {
                     ease: "easeInOut"
                   }}
                 />
-                
-                {/* Floating Particles */}
-                {[...Array(12)].map((_, i) => (
+
+                {/* Complex Floating Particles */}
+                {[...Array(20)].map((_, i) => {
+                  const angle = (i * 360) / 20;
+                  const radius = 140 + Math.sin(i) * 20;
+                  return (
+                    <motion.div
+                      key={`particle-${i}`}
+                      className="absolute w-1.5 h-1.5 rounded-full"
+                      style={{
+                        backgroundColor: i % 4 === 0 ? '#64ffda' : 
+                                        i % 4 === 1 ? '#a855f7' : 
+                                        i % 4 === 2 ? '#3b82f6' : '#10b981',
+                        left: `${50 + Math.cos(angle * Math.PI / 180) * radius / 2}%`,
+                        top: `${50 + Math.sin(angle * Math.PI / 180) * radius / 2}%`,
+                        transform: 'translate(-50%, -50%)',
+                      }}
+                      animate={{
+                        y: [0, -15, 0],
+                        x: [0, Math.cos((angle + i * 10) * Math.PI / 180) * 10, 0],
+                        opacity: [0.3, 1, 0.3],
+                        scale: [0.5, 1.2, 0.5],
+                        rotateZ: [0, 360],
+                      }}
+                      transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Infinity,
+                        delay: i * 0.1,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  );
+                })}
+
+                {/* Orbital Trails */}
+                {[...Array(3)].map((_, i) => (
                   <motion.div
-                    key={i}
-                    className="absolute w-2 h-2 bg-[hsl(var(--portfolio-accent))] rounded-full"
+                    key={`trail-${i}`}
+                    className="absolute inset-8 border rounded-full"
                     style={{
-                      left: `${45 + Math.cos(i * 30 * Math.PI / 180) * 120}px`,
-                      top: `${45 + Math.sin(i * 30 * Math.PI / 180) * 120}px`,
+                      borderWidth: '1px',
+                      borderColor: `rgba(100, 255, 218, ${0.1 + i * 0.05})`,
+                      borderStyle: 'dashed',
+                      transform: `rotateX(${i * 60}deg) rotateY(${i * 40}deg)`,
                     }}
                     animate={{
-                      y: [0, -20, 0],
-                      opacity: [0.3, 1, 0.3],
-                      scale: [0.5, 1, 0.5],
+                      rotateZ: [0, -360],
+                      scale: [1, 1.05, 1],
                     }}
                     transition={{
-                      duration: 2 + Math.random(),
+                      duration: 35 + i * 5,
                       repeat: Infinity,
-                      delay: i * 0.2,
-                      ease: "easeInOut"
+                      ease: "linear"
                     }}
                   />
                 ))}
+
+                {/* Central Energy Burst */}
+                <motion.div
+                  className="absolute inset-32 rounded-full"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(100,255,218,0.3) 0%, rgba(168,85,247,0.2) 50%, transparent 100%)',
+                  }}
+                  animate={{
+                    scale: [0.8, 1.4, 0.8],
+                    opacity: [0.2, 0.6, 0.2],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
               </motion.div>
+
+              {/* Outer Glow Effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full opacity-20"
+                style={{
+                  background: 'radial-gradient(circle, transparent 40%, rgba(100,255,218,0.1) 70%, rgba(168,85,247,0.1) 100%)',
+                  filter: 'blur(20px)',
+                }}
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.2, 0.4, 0.2],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
             </div>
           </motion.div>
         </div>
