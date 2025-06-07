@@ -43,8 +43,8 @@ function Scene() {
         {/* The outer, stylized wrap.
             We use a TorusKnot for a similar abstract feel. */}
         <mesh>
-       // This is the updated line for a closer ribbon
-<torusKnotGeometry args={[1.25, 0.05, 400, 20, 3, 7]} />
+          {/* This is the updated line for a closer ribbon */}
+          <torusKnotGeometry args={[1.25, 0.05, 400, 20, 3, 7]} />
           <meshStandardMaterial
             color="#ffffff"
             roughness={0.1}
