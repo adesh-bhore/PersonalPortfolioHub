@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import FloatingCard from "./FloatingCard";
 
 interface HexagonalSkillProps {
   name: string;
@@ -22,7 +23,8 @@ export default function HexagonalSkill({ name, icon, color, index }: HexagonalSk
       whileHover={{ scale: 1.05 }}
     >
       {/* Exact 3D Hexagon from Reference */}
-      <div className="relative w-20 h-20 mb-3">
+      <FloatingCard className="w-20 h-20 mb-3">
+        <div className="relative w-full h-full">
         {/* Outer shadow */}
         <div
           className="absolute inset-0 transform translate-x-1 translate-y-2"
@@ -130,7 +132,8 @@ export default function HexagonalSkill({ name, icon, color, index }: HexagonalSk
             />
           </div>
         </div>
-      </div>
+        </div>
+      </FloatingCard>
       
       {/* Skill name */}
       <span className="text-xs font-medium text-slate-400 group-hover:text-slate-200 transition-colors duration-200 text-center max-w-16">

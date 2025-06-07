@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState, useRef } from "react";
+import FloatingCard from "./FloatingCard";
 
 interface DiagonalBendCardProps {
   project: {

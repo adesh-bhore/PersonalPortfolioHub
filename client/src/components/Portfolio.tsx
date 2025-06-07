@@ -194,7 +194,7 @@ export default function Portfolio() {
               transition={{ delay: 0.7 }}
             >
               <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
-                Yash Mahajan
+                Adesh Bhore
               </span>
             </motion.h2>
             
@@ -351,7 +351,7 @@ export default function Portfolio() {
               >
                 <span className="text-slate-100">Hi, I'm </span>
                 <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
-                  Yash Mahajan
+                  Adesh Bhore
                 </span>
               </motion.h1>
               <motion.h2
@@ -682,28 +682,10 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <motion.h2 
-              className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))] mb-6"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              viewport={{ once: true }}
-            >
-              Skills & Technologies
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-slate-300 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              A comprehensive toolkit for building modern, scalable web applications
-            </motion.p>
-            
+          
             {/* Animated divider */}
             <motion.div
-              className="w-24 h-1 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 mx-auto mt-6 rounded-full"
+              className=""
               initial={{ width: 0 }}
               whileInView={{ width: 96 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -795,34 +777,43 @@ export default function Portfolio() {
 
         <div className="container mx-auto px-6 relative z-10">
           <motion.div
-            className="text-center mb-20"
+            className="text-center mb-20 flex flex-col items-start justify-center"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <motion.h2 
-              className="font-poppins font-bold text-4xl lg:text-5xl text-[hsl(var(--portfolio-accent))] mb-6"
-              initial={{ opacity: 0, rotateX: -90 }}
-              whileInView={{ opacity: 1, rotateX: 0 }}
-              transition={{ delay: 0.2, duration: 0.8, type: "spring" }}
+            <motion.p
+              className="text-[hsl(var(--portfolio-accent))] font-mono text-lg tracking-wider uppercase"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
               viewport={{ once: true }}
             >
-              Featured Projects
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-slate-300 max-w-2xl mx-auto"
+              My Work
+            </motion.p>
+            <motion.h2 
+              className="font-poppins font-bold text-5xl lg:text-6xl text-slate-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               viewport={{ once: true }}
             >
-              A showcase of my recent work, featuring modern web applications with cutting-edge technologies
+              Projects.
+            </motion.h2>
+            <motion.p 
+              className="text-xl ml-0 text-start text-slate-300 mt-4 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              Following projects showcases my skills and experience through real-world examples of my work. Each project is briefly described with links to code repositories and live demos in it.
             </motion.p>
 
             {/* Animated progress bar */}
             <motion.div
-              className="w-32 h-1 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] via-purple-500 to-[hsl(var(--portfolio-accent))] mx-auto mt-8 rounded-full"
+              className=""
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               transition={{ delay: 0.6, duration: 1.2 }}
