@@ -11,6 +11,7 @@ import HexagonalSkill from "./HexagonalSkill";
 import ModernProjectCard from "./ModernProjectCard";
 import DiagonalBendCard from "./DiagonalBendCard";
 import ModernContactForm from "./ModernContactForm";
+import workspaceImage from "@assets/image_1749276891961.png";
 
 const skills = [
   { name: "React", icon: "fab fa-react", color: "#61DAFB" },
@@ -60,11 +61,23 @@ const projects = [
 export default function Portfolio() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [showWorkspace, setShowWorkspace] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 4000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Alternating animation cycle
+  useEffect(() => {
+    if (!isLoaded) return;
+    
+    const interval = setInterval(() => {
+      setShowWorkspace(prev => !prev);
+    }, 3000); // Switch every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [isLoaded]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -426,7 +439,67 @@ export default function Portfolio() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              <GeometricShape />
+              <div className="relative w-96 h-96">
+                {/* 3D Geometric Shape */}
+                <motion.div
+                  className="absolute inset-0"
+                  animate={{
+                    opacity: showWorkspace ? 0 : 1,
+                    scale: showWorkspace ? 0.8 : 1,
+                    rotateY: showWorkspace ? 90 : 0,
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <GeometricShape />
+                </motion.div>
+
+                {/* Workspace Image */}
+                <motion.img
+                  src={workspaceImage}
+                  alt="Developer workspace with code editor"
+                  className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-2xl"
+                  initial={{ 
+                    opacity: 0, 
+                    y: -100, 
+                    scale: 0.8,
+                    rotateX: -90 
+                  }}
+                  animate={{
+                    opacity: showWorkspace ? 1 : 0,
+                    y: showWorkspace ? 0 : -100,
+                    scale: showWorkspace ? 1 : 0.8,
+                    rotateX: showWorkspace ? 0 : -90,
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    ease: "easeInOut"
+                  }}
+                  style={{
+                    filter: 'brightness(0.9) contrast(1.1) saturate(1.2)',
+                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(100, 255, 218, 0.1)',
+                  }}
+                />
+
+                {/* Glow effect for workspace image */}
+                <motion.div
+                  className="absolute inset-0 rounded-lg"
+                  animate={{
+                    opacity: showWorkspace ? 0.3 : 0,
+                    scale: showWorkspace ? 1.05 : 0.95,
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    ease: "easeInOut"
+                  }}
+                  style={{
+                    background: 'radial-gradient(circle, rgba(100, 255, 218, 0.2) 0%, transparent 70%)',
+                    filter: 'blur(20px)',
+                  }}
+                />
+              </div>
             </motion.div>
           </div>
         </div>
