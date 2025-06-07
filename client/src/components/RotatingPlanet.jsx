@@ -3,17 +3,10 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useTexture, Stars } from '@react-three/drei';
 
 function Scene() {
-  // Use a fallback texture or no texture if the file doesn't exist
-  let nightMap;
-  try {
-    nightMap = useTexture('https://www.solarsystemscope.com/textures/download/8k_earth_nightmap.jpg');
-  } catch (error) {
-    console.warn('Texture not found, using fallback');
-    nightMap = null;
-  }
-
-  
   const groupRef = useRef();
+  
+  // Remove the problematic texture loading for now
+  // const nightMap = useTexture('/8k_earth_nightmap.jpg');
 
   
   useFrame((state, delta) => {
@@ -38,13 +31,13 @@ function Scene() {
         {/* The inner planet */}
         <mesh>
           <sphereGeometry args={[1.5, 64, 64]} />
-          {/* The texture is applied here with fallback */}
+          {/* Beautiful blue planet with gradient effect */}
           <meshStandardMaterial 
-            map={nightMap} 
-            emissiveMap={nightMap} 
-            emissive={nightMap ? 0xffffff : 0x333366} 
-            emissiveIntensity={nightMap ? 0.6 : 0.3}
-            color={nightMap ? 0xffffff : 0x4466ff}
+            color="#2563eb"
+            emissive="#1e40af"
+            emissiveIntensity={0.2}
+            roughness={0.3}
+            metalness={0.1}
           />
         </mesh>
 
