@@ -66,7 +66,7 @@ function Scene() {
 
 export default function RotatingPlanet() {
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#000010' }}>
+    <div className="w-full h-96 lg:h-full min-h-[400px] rounded-lg overflow-hidden">
       <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
         {/* Suspense is required for useTexture to work.
             It shows a fallback while assets are loading. */}
