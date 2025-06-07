@@ -6,7 +6,7 @@ function Scene() {
   // Use a fallback texture or no texture if the file doesn't exist
   let nightMap;
   try {
-    nightMap = useTexture('/8k_earth_nightmap.jpg');
+    nightMap = useTexture('https://www.solarsystemscope.com/textures/download/8k_earth_nightmap.jpg');
   } catch (error) {
     console.warn('Texture not found, using fallback');
     nightMap = null;
