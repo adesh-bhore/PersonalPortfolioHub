@@ -2,22 +2,18 @@ import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useTexture, Stars } from '@react-three/drei';
 
-/**
- * This component contains the actual 3D scene.
- * It's drawn on the Canvas.
- */
 function Scene() {
-  // Load the texture for the planet
+
   const nightMap = useTexture('/8k_earth_nightmap.jpg');
 
-  // A ref to access the group and animate it
+  
   const groupRef = useRef();
 
-  // The useFrame hook runs on every rendered frame
+  
   useFrame((state, delta) => {
-    // Slowly rotate the group
+    
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.1; // delta ensures smooth animation
+      groupRef.current.rotation.y += delta * 0.1; 
     }
   });
 
@@ -67,9 +63,7 @@ function Scene() {
   );
 }
 
-/**
- * The main component that sets up the Canvas and Suspense.
- */
+
 export default function RotatingPlanet() {
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000010' }}>
