@@ -11,7 +11,9 @@ interface HexagonalSkillProps {
 export default function HexagonalSkill({ name, icon, color, index }: HexagonalSkillProps) {
   return (
     <motion.div
-      className="flex flex-col items-center group"
+      className={`flex flex-col items-center group ${
+    index % 2 === 0 ? 'mt-24' : '-mt-4'
+  }`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ 
@@ -23,15 +25,15 @@ export default function HexagonalSkill({ name, icon, color, index }: HexagonalSk
       whileHover={{ scale: 1.05 }}
     >
       {/* Exact 3D Hexagon from Reference */}
-      <FloatingCard className="w-20 h-20 mb-3">
+      <FloatingCard className="w-28 h-28 mb-4">
         <div className="relative w-full h-full">
         {/* Outer shadow */}
         <div
-          className="absolute inset-0 transform translate-x-1 translate-y-2"
+          className="absolute inset-0 transform translate-x-2 translate-y-3"
           style={{
             clipPath: 'polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)',
             background: 'rgba(0, 0, 0, 0.4)',
-            filter: 'blur(4px)',
+            filter: 'blur(5px)',
           }}
         />
         
@@ -124,10 +126,10 @@ export default function HexagonalSkill({ name, icon, color, index }: HexagonalSk
             }}
           >
             <i 
-              className={`${icon} text-lg`}
+              className={`${icon} text-3xl sm:text-3xl`}
               style={{ 
                 color: color,
-                textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                textShadow: '0 2px 4px rgba(0,0,0,0.1)',
               }}
             />
           </div>

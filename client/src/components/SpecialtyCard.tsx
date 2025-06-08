@@ -14,10 +14,11 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
 
   return (
     <motion.div
+      className="w-full h-full flex items-center justify-center"
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ 
-        duration: 0.6, 
+      transition={{
+        duration: 0.6,
         delay: index * 0.1,
         type: "spring",
         stiffness: 100
@@ -26,8 +27,8 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <FloatingCard className="w-80 h-48">
-        <div className="specialty-card glass rounded-2xl p-8 relative overflow-hidden group cursor-none w-full h-full">
+      <FloatingCard className="w-[260px] h-64">
+        <div className="specialty-card glass rounded-2xl p-8 relative overflow-hidden group w-auto h-full">
           {/* Animated background gradient */}
           <motion.div
             className={`absolute inset-0 ${gradient} opacity-0 group-hover:opacity-20 rounded-2xl`}
@@ -37,22 +38,11 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
             }}
             transition={{ duration: 0.3 }}
           />
-          
-          {/* Border glow effect */}
-          <motion.div
-            className="absolute inset-0 rounded-2xl border border-transparent"
-            style={{
-              backgroundImage: `linear-gradient(45deg, transparent, ${isHovered ? 'rgba(100, 255, 218, 0.3)' : 'transparent'}, transparent)`,
-            }}
-            animate={{
-              opacity: isHovered ? 1 : 0,
-            }}
-            transition={{ duration: 0.3 }}
-          />
+
 
           {/* Floating particles on hover */}
           {isHovered && (
-            <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 ">
               {[...Array(8)].map((_, i) => (
                 <motion.div
                   key={i}
@@ -62,7 +52,7 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
                     top: `${Math.random() * 100}%`,
                   }}
                   initial={{ opacity: 0, scale: 0 }}
-                  animate={{ 
+                  animate={{
                     opacity: [0, 1, 0],
                     scale: [0, 1, 0],
                     y: [0, -30, -60],
@@ -79,7 +69,7 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
             </div>
           )}
 
-          <div className="relative z-10" style={{ transform: 'translateZ(20px)' }}>
+          <div className="relative z-10 flex justify-center items-center gap-7 flex-col" style={{ transform: 'translateZ(20px)' }}>
             {/* Icon container */}
             <motion.div
               className="mb-6 relative"
@@ -89,28 +79,25 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <motion.div
-                className={`w-16 h-16 ${gradient} rounded-2xl flex items-center justify-center relative`}
+                className={`w-16 h-16 rounded-2xl flex items-center justify-center relative`}
                 animate={{
                   rotate: isHovered ? [0, 5, -5, 0] : 0,
                   scale: isHovered ? [1, 1.05, 1] : 1,
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: isHovered ? Infinity : 0,
                   ease: "easeInOut"
                 }}
               >
-                <motion.div
-                  className="text-2xl text-white"
-                  dangerouslySetInnerHTML={{ __html: icon }}
-                  animate={{
-                    textShadow: isHovered 
-                      ? ["0 0 0px rgba(255,255,255,0)", "0 0 20px rgba(255,255,255,0.8)", "0 0 0px rgba(255,255,255,0)"]
-                      : "0 0 0px rgba(255,255,255,0)"
-                  }}
-                  transition={{ duration: 1.5, repeat: isHovered ? Infinity : 0 }}
-                />
-                
+                <div className="flex justify-center">
+                  <img
+                    src={icon}
+                    alt={title}
+                    className="w-26 h-22 object-contain rounded-3xl"
+                  />
+                </div>
+
                 {/* Glow effect behind icon */}
                 <motion.div
                   className="absolute inset-0 rounded-2xl"
@@ -127,8 +114,8 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
             </motion.div>
 
             {/* Title */}
-            <motion.h3 
-              className="font-poppins font-semibold text-xl text-slate-100 text-center"
+            <motion.h3
+              className="font-poppins font-semibold text-xl text-center mb-0 text-white leading-normal"
               animate={{
                 color: isHovered ? "#64ffda" : "#f1f5f9",
                 scale: isHovered ? 1.05 : 1,
@@ -137,6 +124,7 @@ export default function SpecialtyCard({ title, icon, gradient, index }: Specialt
             >
               {title}
             </motion.h3>
+
 
             {/* Subtle description line that appears on hover */}
             <motion.div

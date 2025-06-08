@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import git from  "@assests/git.png";
 
 interface ProjectCardProps {
   project: {
@@ -26,7 +27,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         {/* Front of card */}
         <div className="flip-card-front absolute w-full h-full glass rounded-xl p-6 flex flex-col">
           <img
-            src={project.image}
+            src={git}
             alt={project.title}
             className="rounded-lg mb-4 w-full h-48 object-cover"
           />

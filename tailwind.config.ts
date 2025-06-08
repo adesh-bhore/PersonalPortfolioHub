@@ -10,7 +10,16 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+       fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        saira:[ "Saira", "sans-serif"],
+        work:[ "Work-Sans", "sans-serif"],
+      },
       colors: {
+        'deep-night': '#090f15',
+        portfolio: {
+        primary: 'hsl(210 40% 6%)',
+      },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

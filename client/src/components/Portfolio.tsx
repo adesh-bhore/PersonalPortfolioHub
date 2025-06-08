@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import CustomCursor from "./CustomCursor";
 import ParticleBackground from "./ParticleBackground";
 import GeometricShape from "./GeometricShape";
@@ -11,70 +11,90 @@ import HexagonalSkill from "./HexagonalSkill";
 import ModernProjectCard from "./ModernProjectCard";
 import DiagonalBendCard from "./DiagonalBendCard";
 import ModernContactForm from "./ModernContactForm";
-import workspaceImage from "@assets/image_1749276891961.png";
+import ExperienceCard from "./ExperienceCard";
+import workspaceImage from "@assets/workSpace.jpg";
+import img1 from "@assets/img1.png";
+import img2 from "@assets/img2.png";
+import img3 from "@assets/img3.png";
+import img4 from "@assets/img4.png";
 
-const skills = [
-  { name: "React", icon: "fab fa-react", color: "#61DAFB" },
-  { name: "TypeScript", icon: "fab fa-js", color: "#007ACC" },
-  { name: "Next.js", icon: "fas fa-code", color: "#000000" },
-  { name: "Tailwind", icon: "fab fa-css3-alt", color: "#06B6D4" },
-  { name: "Node.js", icon: "fab fa-node-js", color: "#339933" },
-  { name: "Python", icon: "fab fa-python", color: "#3776AB" },
-  { name: "PostgreSQL", icon: "fas fa-database", color: "#336791" },
-  { name: "MongoDB", icon: "fas fa-leaf", color: "#47A248" },
-  { name: "AWS", icon: "fab fa-aws", color: "#FF9900" },
-  { name: "Docker", icon: "fab fa-docker", color: "#2496ED" },
-  { name: "Git", icon: "fab fa-git-alt", color: "#F05032" },
-  { name: "Figma", icon: "fab fa-figma", color: "#F24E1E" },
-];
 
-const projects = [
-  {
-    title: "E-Commerce Platform",
-    description: "Modern e-commerce solution with real-time analytics",
-    longDescription: "A full-stack e-commerce platform built with Next.js, featuring real-time inventory management, payment processing, and advanced analytics dashboard.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-    technologies: ["Next.js", "TypeScript", "Stripe"],
-    liveUrl: "#",
-    githubUrl: "#"
-  },
-  {
-    title: "Social Connect",
-    description: "Real-time social platform with instant messaging",
-    longDescription: "A real-time social media platform featuring instant messaging, file sharing, and advanced user interactions built with React and Socket.io.",
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-    technologies: ["React", "Socket.io", "MongoDB"],
-    liveUrl: "#",
-    githubUrl: "#"
-  },
-  {
-    title: "AI Task Manager",
-    description: "Intelligent productivity app with AI-powered insights",
-    longDescription: "An intelligent task management system that uses machine learning to optimize productivity and provide personalized recommendations.",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-    technologies: ["Python", "TensorFlow", "FastAPI"],
-    liveUrl: "#",
-    githubUrl: "#"
-  }
-];
+
+import { getDatabase, ref ,onValue } from "firebase/database";
+import { app } from '../Firebase';
+
+const database = getDatabase(app);
+
+
 
 export default function Portfolio() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [showWorkspace, setShowWorkspace] = useState(false);
+  const [skills, setSkills] = useState([]);
+  const [experiences, setExperiences] = useState([]);
+  const [projects, setProjects] = useState([]);
+
+
+
+
+    useEffect(() => {
+        console.log("Setting up real-time listener...");
+        const portfolioRef = ref(database, 'portfolio');
+
+        // onValue returns an unsubscribe function that we can use for cleanup
+        const unsubscribe = onValue(portfolioRef, (snapshot) => {
+            if (snapshot.exists()) {
+                console.log("Real-time data received!");
+                const portfolioData = snapshot.val();
+
+                // --- UPDATE STATE WITH THE LATEST DATA ---
+                const skills_f = portfolioData.skills || [];
+                const experiences_f = portfolioData.experiences || [];
+                const projects_f = portfolioData.projects || [];
+
+                setProjects(projects_f);
+                setSkills(skills_f);
+                setExperiences(experiences_f);
+
+                console.log("State updated with the latest data from Firebase.");
+
+            } else {
+                console.log("No data available at 'portfolio' path.");
+                // Optionally, clear the state if the data is deleted from the database
+                setProjects([]);
+                setSkills([]);
+                setExperiences([]);
+            }
+        }, (error) => {
+            // This optional second callback handles errors
+            console.error("Error listening to Firebase data:", error);
+        });
+
+        // --- CLEANUP FUNCTION ---
+        // This is crucial. React will call this function when the component unmounts.
+        // It unsubscribes from the listener to prevent memory leaks.
+        return () => {
+            console.log("Unsubscribing from real-time listener.");
+            unsubscribe();
+        };
+
+    }, []); 
+
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 4000);
     return () => clearTimeout(timer);
+
   }, []);
 
   // Alternating animation cycle
   useEffect(() => {
     if (!isLoaded) return;
-    
+
     const interval = setInterval(() => {
       setShowWorkspace(prev => !prev);
-    }, 3000); // Switch every 3 seconds
+    }, 4000); // Switch every 3 seconds
 
     return () => clearInterval(interval);
   }, [isLoaded]);
@@ -151,14 +171,14 @@ export default function Portfolio() {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               />
-              
+
               {/* Middle ring */}
               <motion.div
                 className="absolute inset-2 border-4 border-purple-500/50 rounded-full border-t-transparent"
                 animate={{ rotate: -360 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               />
-              
+
               {/* Inner core */}
               <motion.div
                 className="absolute inset-4 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-full"
@@ -168,7 +188,7 @@ export default function Portfolio() {
                 }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               />
-              
+
               {/* Center icon */}
               <motion.div
                 className="absolute inset-0 flex items-center justify-center text-[hsl(var(--portfolio-bg-primary))] text-xl"
@@ -197,7 +217,7 @@ export default function Portfolio() {
                 Adesh Bhore
               </span>
             </motion.h2>
-            
+
             <motion.p
               className="text-slate-300 text-lg"
               initial={{ opacity: 0 }}
@@ -206,7 +226,7 @@ export default function Portfolio() {
             >
               Crafting Digital Experiences
             </motion.p>
-            
+
             {/* Loading progress bar */}
             <motion.div
               className="w-64 h-1 bg-slate-700 rounded-full mx-auto mt-6 overflow-hidden"
@@ -221,7 +241,7 @@ export default function Portfolio() {
                 transition={{ delay: 1.3, duration: 2.5, ease: "easeInOut" }}
               />
             </motion.div>
-            
+
             {/* Loading percentage */}
             <motion.div
               className="text-sm text-slate-400 mt-2"
@@ -250,20 +270,20 @@ export default function Portfolio() {
                 key={i}
                 className={`${item.icon} absolute text-2xl text-[hsl(var(--portfolio-accent))]/20`}
                 style={{ left: "50%", top: "50%" }}
-                initial={{ 
-                  opacity: 0, 
-                  x: 0, 
+                initial={{
+                  opacity: 0,
+                  x: 0,
                   y: 0,
-                  scale: 0 
+                  scale: 0
                 }}
-                animate={{ 
+                animate={{
                   opacity: [0, 0.3, 0],
                   x: item.x,
                   y: item.y,
                   scale: [0, 1, 0],
                   rotate: [0, 360]
                 }}
-                transition={{ 
+                transition={{
                   delay: item.delay,
                   duration: 3,
                   repeat: Infinity,
@@ -279,34 +299,34 @@ export default function Portfolio() {
 
   return (
     <div className="relative">
-      <CustomCursor />
+      {/*       <CustomCursor /> */}
       <ParticleBackground />
 
       {/* Navigation */}
       <motion.nav
-        className="fixed top-0 left-0 right-0 z-50 glass"
+        className="fixed top-0 left-0 right-0 z-50 glass bg-portfolio-primary w-full"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
+
       >
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
+        <div className="container px-9 py-4 bg-portfolio-primary w-full max-w-full">
+          <div className="flex justify-between items-center ">
             <motion.div
-              className="font-poppins font-bold text-xl text-[hsl(var(--portfolio-accent))]"
+              className="font-poppins font-bold text-2xl text-white"
               whileHover={{ scale: 1.05 }}
             >
-              YM
+              Adesh Bhore
             </motion.div>
-            <div className="hidden md:flex space-x-8">
-              {["home", "about", "skills", "projects", "contact"].map((item) => (
+            <div className="hidden md:flex space-x-8 ml-10">
+              {["home", "about", "contact"].map((item) => (
                 <motion.button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className={`capitalize transition-colors magnetic-btn ${
-                    activeSection === item
-                      ? "text-[hsl(var(--portfolio-accent))]"
-                      : "text-slate-300 hover:text-[hsl(var(--portfolio-accent))]"
-                  }`}
+                  className={`capitalize transition-colors magnetic-btn font-work text-xl ${activeSection === item
+                    ? "text-grey-500"
+                    : "text-slate-300 hover:text-white"
+                    }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -326,7 +346,7 @@ export default function Portfolio() {
       </motion.nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center animated-bg overflow-hidden">
+      <section id="home" className="relative min-h-screen flex items-center bg-[hsl(var(--portfolio-bg-primary))] justify-center overflow-hidden">
         <div className="container mx-auto px-6 z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -335,25 +355,32 @@ export default function Portfolio() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.p
-                className="text-[hsl(var(--portfolio-accent))] font-mono text-lg"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                Hi, my name is
-              </motion.p>
-              <motion.h1
-                className="font-poppins font-bold text-6xl lg:text-7xl"
+
+              <motion.div
+                className="flex items-start gap-6 -ml-9" // negative margin to push left
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                <span className="text-slate-100">Hi, I'm </span>
-                <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
-                  Adesh Bhore
-                </span>
-              </motion.h1>
+                {/* Vertical stick with fading end and circle */}
+                <div className="relative w-1.5 h-40">
+                  {/* Stick */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-purple-500/90 via-purple-500/50 to-purple-500/0 rounded-full" />
+
+                  {/* Small circle at top */}
+                  <div className="absolute -left-1.5 top-0 w-3 h-3 bg-purple-500 rounded-full shadow-lg" />
+                </div>
+
+                {/* Name heading */}
+                <h1 className="font-poppins font-bold text-6xl lg:text-7xl leading-tight">
+                  <span className="text-slate-100">Hi, I'm </span>
+                  <span className="bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
+                    Adesh Bhore
+                  </span>
+                </h1>
+              </motion.div>
+
+
               <motion.h2
                 className="font-poppins font-semibold text-4xl lg:text-5xl text-slate-400"
                 initial={{ opacity: 0, y: 20 }}
@@ -368,7 +395,7 @@ export default function Portfolio() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.1 }}
               >
-                A dynamic and versatile tech enthusiast who turns dreams into reality.
+                A tech-savvy trailblazer shaping the future, one project at a time.
               </motion.p>
               {/* Mouse Scroll Animation */}
               <motion.div
@@ -384,7 +411,7 @@ export default function Portfolio() {
                   whileTap={{ scale: 0.95 }}
                 >
                   {/* Mouse outline */}
-                  <div className="w-6 h-10 border-2 border-[hsl(var(--portfolio-accent))] rounded-full relative">
+                  <div className="w-10 h-16 border-4 border-grey-800 rounded-full relative">
                     {/* Scroll wheel */}
                     <motion.div
                       className="w-1 h-2 bg-[hsl(var(--portfolio-accent))] rounded-full mx-auto mt-2"
@@ -399,7 +426,7 @@ export default function Portfolio() {
                       }}
                     />
                   </div>
-                  
+
                   {/* Scroll text */}
                   <motion.p
                     className="text-xs text-slate-400 mt-2 text-center font-mono tracking-wider"
@@ -414,10 +441,10 @@ export default function Portfolio() {
                   >
                     SCROLL
                   </motion.p>
-                  
+
                   {/* Floating arrow */}
                   <motion.div
-                    className="absolute -bottom-6 left-1/2 transform -translate-x-1/2"
+                    className="absolute -bottom-6 left-3 transform -translate-x-1/2"
                     animate={{
                       y: [0, 5, 0],
                     }}
@@ -427,78 +454,58 @@ export default function Portfolio() {
                       ease: "easeInOut"
                     }}
                   >
-                    <i className="fas fa-chevron-down text-[hsl(var(--portfolio-accent))] text-xs"></i>
+                    <i className="fas fa-chevron-down text-grey-800 text-xs"></i>
                   </motion.div>
                 </motion.div>
               </motion.div>
             </motion.div>
 
             <motion.div
-              className="flex justify-center lg:justify-end"
+              className="flex justify-center lg:justify-end w-100 h-100"
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              <div className="relative w-96 h-96">
-                {/* 3D Geometric Shape */}
-                <motion.div
-                  className="absolute inset-0"
-                  animate={{
-                    opacity: showWorkspace ? 0 : 1,
-                    scale: showWorkspace ? 0.8 : 1,
-                    rotateY: showWorkspace ? 90 : 0,
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <GeometricShape />
-                </motion.div>
-
-                {/* Workspace Image */}
-                <motion.img
-                  src={workspaceImage}
-                  alt="Developer workspace with code editor"
-                  className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-2xl"
-                  initial={{ 
-                    opacity: 0, 
-                    y: -100, 
-                    scale: 0.8,
-                    rotateX: -90 
-                  }}
-                  animate={{
-                    opacity: showWorkspace ? 1 : 0,
-                    y: showWorkspace ? 0 : -100,
-                    scale: showWorkspace ? 1 : 0.8,
-                    rotateX: showWorkspace ? 0 : -90,
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    ease: "easeInOut"
-                  }}
-                  style={{
-                    filter: 'brightness(0.9) contrast(1.1) saturate(1.2)',
-                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(100, 255, 218, 0.1)',
-                  }}
-                />
-
-                {/* Glow effect for workspace image */}
-                <motion.div
-                  className="absolute inset-0 rounded-lg"
-                  animate={{
-                    opacity: showWorkspace ? 0.3 : 0,
-                    scale: showWorkspace ? 1.05 : 0.95,
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    ease: "easeInOut"
-                  }}
-                  style={{
-                    background: 'radial-gradient(circle, rgba(100, 255, 218, 0.2) 0%, transparent 70%)',
-                    filter: 'blur(20px)',
-                  }}
-                />
+              <div className="relative w-[25rem] h-[25rem] lg:w-[30rem] lg:h-[30rem]">
+                {/* MODIFICATION: Wrap the alternating components in AnimatePresence */}
+                <AnimatePresence mode="wait">
+                  {!showWorkspace ? (
+                    <motion.div
+                      key="shape" // MODIFICATION: Add a unique key
+                      className="absolute inset-0"
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1, rotateY: 360 }}
+                      exit={{ opacity: 0, scale: 0.5, rotateY: -360 }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                    >
+                      <GeometricShape />
+                    </motion.div>
+                  ) : (
+                    <motion.img
+                      key="workspace" // MODIFICATION: Add a unique key
+                      src={workspaceImage}
+                      alt="Developer workspace with code editor"
+                      className="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-2xl"
+                      // MODIFICATION: Use variants for cleaner animation definitions
+                      variants={{
+                        hidden: { opacity: 0, y: -100, rotateX: -30 }, // Enters from top
+                        visible: { opacity: 1, y: 0, rotateX: 0 },   // Lands in the center
+                        exit: { opacity: 0, y: 100, rotateX: 30 },     // Exits to the bottom
+                      }}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      transition={{
+                        duration: 0.8,
+                        ease: "easeInOut"
+                      }}
+                      style={{
+                        filter: 'brightness(0.9) contrast(1.1) saturate(1.2)',
+                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(100, 255, 218, 0.1)',
+                      }}
+                    />
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           </div>
@@ -532,12 +539,12 @@ export default function Portfolio() {
             ease: "easeInOut",
           }}
         />
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center space-y-16">
             {/* Section Header */}
             <motion.div
-              className="space-y-6"
+              className="text-center mb-25 flex flex-col items-start justify-center"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -552,7 +559,7 @@ export default function Portfolio() {
               >
                 Introduction
               </motion.p>
-              <motion.h2 
+              <motion.h2
                 className="font-poppins font-bold text-5xl lg:text-6xl text-slate-100"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -562,34 +569,32 @@ export default function Portfolio() {
                 Overview.
               </motion.h2>
               <motion.p
-                className="text-lg text-slate-300 max-w-4xl mx-auto leading-relaxed"
+                className="text-xl ml-0 mt-4 text-start text-slate-300 mt-4 max-w-2xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
+                transition={{ delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                I'm a skilled software developer with experience in Java, C, C++, Python and Javascript
-                and expertise in frameworks like Django, React.js, Node.js, and Next.js . I'm a quick learner
-                and collaborate closely with clients to create efficient, scalable, and user-friendly
-                solutions that solve real-world problems. Let's work together to bring your ideas to life!
-              </motion.p>
-              
+               I'm a proficient software developer with hands-on experience in Java, C, C++, Python, and JavaScript, and a strong command of frameworks like Django, React.js, Node.js and Flutter Dev. Known for my ability to quickly adapt and learn, I thrive in collaborative environments where I work closely with clients to build high-performing, scalable, and intuitive solutions that address real-world challenges. Let’s turn your vision into reality—together!              </motion.p>
+
               {/* Social Links */}
               <motion.div
-                className="flex justify-center gap-6 pt-4"
+                className="flex justify-center gap-6 pt-4 mt-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
                 viewport={{ once: true }}
               >
                 {[
-                  { name: "GitHub", icon: "fab fa-github", url: "#" },
-                  { name: "LinkedIn", icon: "fab fa-linkedin", url: "#" },
-                  { name: "LeetCode", icon: "fas fa-code", url: "#" },
-                  { name: "See CV", icon: "fas fa-file-alt", url: "#" }
+                  { name: "GitHub", icon: "fab fa-github", url: "https://github.com/adesh-bhore" },
+                  { name: "LinkedIn", icon: "fab fa-linkedin", url: "https://www.linkedin.com/in/adesh-bhore-395a40341/" },
+                  { name: "LeetCode", icon: "fas fa-code", url: "https://leetcode.com/u/adesh-bhore-01/" },
+                  { name: "See CV", icon: "fas fa-file-alt", url: "/Adesh_Bhore_VIT.pdf" }
                 ].map((link, index) => (
-                  <motion.button
+                  <motion.a
                     key={link.name}
+                    href={link.url}
+                    target="_blank" 
                     className="glass px-6 py-3 rounded-lg font-medium text-slate-300 hover:text-[hsl(var(--portfolio-accent))] hover:border-[hsl(var(--portfolio-accent))] transition-all duration-300 magnetic-btn border border-slate-600"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
@@ -600,51 +605,53 @@ export default function Portfolio() {
                   >
                     <i className={`${link.icon} mr-2`}></i>
                     {link.name}
-                  </motion.button>
+                  </motion.a>
                 ))}
               </motion.div>
             </motion.div>
 
             {/* Specialty Cards Grid */}
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-4 py-8"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
-              style={{ perspective: '1000px' }}
             >
+
+
               <SpecialtyCard
                 title="Full Stack Developer"
-                icon="&#x1F4BB;"
+                icon={img1}
                 gradient="bg-gradient-to-br from-blue-500 to-purple-600"
                 index={0}
               />
               <SpecialtyCard
-                title="Android Developer"
-                icon="&#x1F4F1;"
+                title="Flutter Developer"
+                icon={img2}
                 gradient="bg-gradient-to-br from-green-500 to-teal-600"
                 index={1}
               />
               <SpecialtyCard
                 title="Problem Solver"
-                icon="&#x1F9E9;"
+                icon={img3}
                 gradient="bg-gradient-to-br from-purple-500 to-pink-600"
                 index={2}
               />
               <SpecialtyCard
-                title="Machine Learning Enthusiast"
-                icon="&#x1F916;"
+                title="AI Enthusiast"
+                icon={img4}
                 gradient="bg-gradient-to-br from-orange-500 to-red-600"
                 index={3}
               />
+
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-secondary))] relative overflow-hidden">
+      <section id="skills" className="min-h-50vh flex items-center py-20 bg-[hsl(var(--portfolio-bg-primary))] relative overflow-hidden">
         {/* Animated background elements */}
         <motion.div
           className="absolute top-0 left-0 w-full h-full"
@@ -682,7 +689,7 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-          
+
             {/* Animated divider */}
             <motion.div
               className=""
@@ -694,15 +701,15 @@ export default function Portfolio() {
           </motion.div>
 
           {/* Hexagonal Skills Grid */}
-          <motion.div 
-            className="flex flex-wrap justify-center items-center gap-6 max-w-6xl mx-auto"
+          <motion.div
+            className="flex flex-wrap justify-center items-center gap-8 max-w-6xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
             viewport={{ once: true }}
           >
             {/* First row - 7 hexagons */}
-            <div className="flex flex-wrap justify-center gap-4 mb-2">
+            <div className="flex flex-wrap justify-center gap-6 mb-4">
               {skills.slice(0, 7).map((skill, index) => (
                 <HexagonalSkill
                   key={skill.name}
@@ -730,6 +737,42 @@ export default function Portfolio() {
 
         </div>
       </section>
+
+
+
+      {/* Experience Section */}
+      <section id="experience" className="min-h-screen py-20 bg-[hsl(var(--portfolio-bg-primary))] relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10 ">
+          {/* Section Header */}
+          <motion.div
+            className="text-center mb-20 flex flex-col items-start justify-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-[hsl(var(--portfolio-accent))] font-mono text-lg tracking-wider uppercase">
+              What I've Done So Far
+            </p>
+            <h2 className="font-poppins font-bold text-5xl lg:text-6xl text-slate-100">
+              Work Experience.
+            </h2>
+          </motion.div>
+
+          {/* Timeline Container */}
+          <div className="relative flex flex-col items-center space-y-12">
+            {/* The actual timeline content */}
+            {experiences.map((exp, index) => (
+              <ExperienceCard
+                key={index}
+                experience={exp}
+                alignment={index % 2 === 0 ? 'left' : 'right'}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* Projects Section */}
       <section id="projects" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-primary))] relative overflow-hidden">
@@ -759,7 +802,7 @@ export default function Portfolio() {
         >
           <i className="fas fa-code text-2xl"></i>
         </motion.div>
-        
+
         <motion.div
           className="absolute bottom-40 left-16 w-6 h-6 text-purple-400 opacity-20"
           animate={{
@@ -792,7 +835,7 @@ export default function Portfolio() {
             >
               My Work
             </motion.p>
-            <motion.h2 
+            <motion.h2
               className="font-poppins font-bold text-5xl lg:text-6xl text-slate-100"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -801,7 +844,7 @@ export default function Portfolio() {
             >
               Projects.
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl ml-0 text-start text-slate-300 mt-4 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -828,238 +871,11 @@ export default function Portfolio() {
             ))}
           </div>
 
-          {/* Call to action */}
-          <motion.div
-            className="text-center mt-20"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
-            viewport={{ once: true }}
-          >
-            <motion.div
-              className="glass rounded-2xl p-8 max-w-2xl mx-auto"
-              whileHover={{ scale: 1.02, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <h3 className="font-poppins font-bold text-2xl text-slate-200 mb-4">
-                Interested in collaborating?
-              </h3>
-              <p className="text-slate-400 mb-6">
-                I'm always excited to work on innovative projects and bring creative ideas to life.
-              </p>
-              <motion.button
-                className="magnetic-btn bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 text-[hsl(var(--portfolio-bg-primary))] px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-[hsl(var(--portfolio-accent))]/25"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection("contact")}
-              >
-                <span className="mr-2">Let's Talk</span>
-                <i className="fas fa-arrow-right"></i>
-              </motion.button>
-            </motion.div>
-          </motion.div>
+
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="min-h-screen flex items-center py-20 bg-[hsl(var(--portfolio-bg-secondary))] relative overflow-hidden">
-        {/* Animated background elements */}
-        <motion.div
-          className="absolute top-1/4 left-10 w-32 h-32 border border-[hsl(var(--portfolio-accent))] rounded-full opacity-10"
-          animate={{
-            scale: [1, 1.5, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-        
-        <motion.div
-          className="absolute bottom-20 right-16 w-20 h-20 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-lg opacity-5"
-          animate={{
-            y: [0, -30, 0],
-            rotateZ: [0, 45, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
 
-        {/* Contact icons floating */}
-        <motion.div
-          className="absolute top-32 right-1/4 text-[hsl(var(--portfolio-accent))] opacity-20"
-          animate={{
-            y: [0, -15, 0],
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <i className="fas fa-envelope text-3xl"></i>
-        </motion.div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              className="text-center mb-20"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <motion.h2 
-                className="font-poppins font-bold text-4xl lg:text-6xl text-[hsl(var(--portfolio-accent))] mb-6"
-                initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
-                whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                transition={{ delay: 0.2, duration: 1, type: "spring", stiffness: 150 }}
-                viewport={{ once: true }}
-              >
-                What's Next?
-              </motion.h2>
-              <motion.p 
-                className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                viewport={{ once: true }}
-              >
-                I'm always interested in new opportunities and exciting projects. Let's create something amazing together!
-              </motion.p>
-
-              {/* Animated contact methods */}
-              <motion.div
-                className="flex justify-center space-x-8 mt-12"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                viewport={{ once: true }}
-              >
-                {[
-                  { icon: "fas fa-envelope", label: "Email", href: "mailto:alex@example.com" },
-                  { icon: "fab fa-linkedin", label: "LinkedIn", href: "#" },
-                  { icon: "fab fa-github", label: "GitHub", href: "#" },
-                  { icon: "fab fa-twitter", label: "Twitter", href: "#" }
-                ].map((contact, index) => (
-                  <motion.a
-                    key={contact.label}
-                    href={contact.href}
-                    className="glass p-4 rounded-xl text-center group magnetic-btn"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + index * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ 
-                      scale: 1.1, 
-                      y: -5,
-                      boxShadow: "0 10px 25px rgba(100, 255, 218, 0.2)"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <motion.i
-                      className={`${contact.icon} text-2xl text-[hsl(var(--portfolio-accent))] mb-2 block`}
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                    <span className="text-sm text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {contact.label}
-                    </span>
-                  </motion.a>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            <div className="grid lg:grid-cols-2 gap-16 items-start">
-              {/* Contact form */}
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.0, duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <ContactForm />
-              </motion.div>
-
-              {/* Contact info and additional details */}
-              <motion.div
-                className="space-y-8"
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.2, duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                {/* Quick contact info */}
-                <motion.div
-                  className="glass rounded-2xl p-8"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <h3 className="font-poppins font-bold text-2xl text-[hsl(var(--portfolio-accent))] mb-6">
-                    Let's Connect
-                  </h3>
-                  <div className="space-y-4">
-                    {[
-                      { icon: "fas fa-map-marker-alt", text: "San Francisco, CA" },
-                      { icon: "fas fa-envelope", text: "alex.chen@example.com" },
-                      { icon: "fas fa-phone", text: "+1 (555) 123-4567" },
-                      { icon: "fas fa-clock", text: "Available Mon-Fri, 9AM-6PM PST" }
-                    ].map((item, index) => (
-                      <motion.div
-                        key={index}
-                        className="flex items-center space-x-4"
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 1.4 + index * 0.1 }}
-                        viewport={{ once: true }}
-                      >
-                        <div className="w-12 h-12 bg-[hsl(var(--portfolio-accent))]/10 rounded-lg flex items-center justify-center">
-                          <i className={`${item.icon} text-[hsl(var(--portfolio-accent))]`}></i>
-                        </div>
-                        <span className="text-slate-300">{item.text}</span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-
-                {/* Response time info */}
-                <motion.div
-                  className="glass rounded-2xl p-6 text-center"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.8, type: "spring", stiffness: 200 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -5 }}
-                >
-                  <motion.div
-                    className="w-16 h-16 bg-gradient-to-r from-[hsl(var(--portfolio-accent))] to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4"
-                    animate={{
-                      rotate: [0, 360],
-                    }}
-                    transition={{
-                      duration: 10,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  >
-                    <i className="fas fa-rocket text-[hsl(var(--portfolio-bg-primary))] text-xl"></i>
-                  </motion.div>
-                  <h4 className="font-semibold text-slate-200 mb-2">Quick Response</h4>
-                  <p className="text-slate-400 text-sm">
-                    I typically respond to messages within 24 hours. Looking forward to hearing from you!
-                  </p>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <ModernContactForm />
 
@@ -1068,19 +884,20 @@ export default function Portfolio() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <p className="text-slate-400">&copy; 2024 Yash Mahajan. Built with passion and lots of coffee.</p>
+              <p className="text-slate-400">&copy; 2025 Adesh Bhore. Built with passion and lots of coffee.</p>
             </div>
             <div className="flex space-x-6">
               {[
-                { icon: "fab fa-github", href: "#" },
-                { icon: "fab fa-linkedin", href: "#" },
+                { icon: "fab fa-github", href: "https://github.com/adesh-bhore" },
+                { icon: "fab fa-linkedin", href: "https://www.linkedin.com/in/adesh-bhore-395a40341/" },
                 { icon: "fab fa-twitter", href: "#" },
                 { icon: "fas fa-envelope", href: "#" }
               ].map((social, index) => (
                 <motion.a
                   key={index}
                   href={social.href}
-                  className="magnetic-btn text-slate-400 hover:text-[hsl(var(--portfolio-accent))] transition-colors"
+                  target="_blank"
+                  className="magnetic-btn text-slate-400 hover:text-white transition-colors"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                 >

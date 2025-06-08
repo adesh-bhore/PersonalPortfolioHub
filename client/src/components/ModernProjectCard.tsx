@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
+import git from "@assests/git.png";
 
 interface ModernProjectCardProps {
   project: {
@@ -125,7 +126,7 @@ export default function ModernProjectCard({ project, index }: ModernProjectCardP
           }}
         >
           <motion.img
-            src={project.image}
+            src={git}
             alt={project.title}
             className="w-full h-full object-cover"
             animate={{

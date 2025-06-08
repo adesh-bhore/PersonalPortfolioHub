@@ -3,9 +3,8 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import astronautImage from "@assets/image_1749233651579.png";
 import { useToast } from "@/hooks/use-toast";
-import RotatingPlanet from "./RotatingPlanet"
+import RotatingPlanet from "../RotatingPlanet";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -29,25 +28,50 @@ export default function ModernContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = async (data: ContactForm) => {
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
     setIsSubmitting(true);
+     
+    const formData = {
+        from_name: e.target.from_name.value,
+        from_email: e.target.from_email.value,
+        message: e.target.message.value,
+    };
+
+    //  CHANGE THIS LINE:
+    //  No more full URL. Just the relative path to the API endpoint.
+    const apiUrl = '/api/contact'; 
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        });
+
+        // ... the rest of the try/catch logic is exactly the same
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Something went wrong');
+ 
+       await new Promise(resolve => setTimeout(resolve, 2000));
       toast({
         title: "Message sent successfully!",
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
       reset();
+        
     } catch (error) {
-      toast({
+        // ... error handling is the same
+        toast({
         title: "Error sending message",
         description: "Please try again later.",
         variant: "destructive",
       });
+     
     } finally {
-      setIsSubmitting(false);
+        setIsSubmitting(false);
     }
+
   };
 
   return (
@@ -77,7 +101,7 @@ export default function ModernContactForm() {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
+
           {/* Left Side - Form */}
           <motion.div
             className="space-y-8"
@@ -110,7 +134,7 @@ export default function ModernContactForm() {
 
             {/* Form */}
             <motion.form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={HandleSubmit}
               className="space-y-6"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -126,6 +150,7 @@ export default function ModernContactForm() {
                   <input
                     {...register("name")}
                     type="text"
+                    name="from_name"
                     placeholder="What's your good name?"
                     className="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-4 text-slate-100 placeholder-slate-500 focus:border-[hsl(var(--portfolio-accent))] focus:outline-none transition-colors"
                     onFocus={() => setFocusedField('name')}
@@ -134,7 +159,7 @@ export default function ModernContactForm() {
                   <motion.div
                     className="absolute inset-0 border-2 border-[hsl(var(--portfolio-accent))] rounded-lg pointer-events-none"
                     initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ 
+                    animate={{
                       opacity: focusedField === 'name' ? 0.3 : 0,
                       scale: focusedField === 'name' ? 1 : 0.95
                     }}
@@ -155,6 +180,7 @@ export default function ModernContactForm() {
                   <input
                     {...register("email")}
                     type="email"
+                    name="from_email"
                     placeholder="What's your web address?"
                     className="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-4 text-slate-100 placeholder-slate-500 focus:border-[hsl(var(--portfolio-accent))] focus:outline-none transition-colors"
                     onFocus={() => setFocusedField('email')}
@@ -163,7 +189,7 @@ export default function ModernContactForm() {
                   <motion.div
                     className="absolute inset-0 border-2 border-[hsl(var(--portfolio-accent))] rounded-lg pointer-events-none"
                     initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ 
+                    animate={{
                       opacity: focusedField === 'email' ? 0.3 : 0,
                       scale: focusedField === 'email' ? 1 : 0.95
                     }}
@@ -183,6 +209,7 @@ export default function ModernContactForm() {
                 <div className="relative">
                   <textarea
                     {...register("message")}
+                    name="message"
                     rows={6}
                     placeholder="What you want to say?"
                     className="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-4 text-slate-100 placeholder-slate-500 focus:border-[hsl(var(--portfolio-accent))] focus:outline-none transition-colors resize-none"
@@ -192,7 +219,7 @@ export default function ModernContactForm() {
                   <motion.div
                     className="absolute inset-0 border-2 border-[hsl(var(--portfolio-accent))] rounded-lg pointer-events-none"
                     initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ 
+                    animate={{
                       opacity: focusedField === 'message' ? 0.3 : 0,
                       scale: focusedField === 'message' ? 1 : 0.95
                     }}
@@ -208,7 +235,7 @@ export default function ModernContactForm() {
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[hsl(var(--portfolio-accent))] text-[hsl(var(--portfolio-bg-primary))] py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition-opacity disabled:opacity-50 magnetic-btn"
+                className="w-55 px-2 bg-slate-400 text-white py-2 rounded-lg font-semibold text-lg hover:opacity-90 transition-opacity disabled:opacity-50 magnetic-btn"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -224,10 +251,15 @@ export default function ModernContactForm() {
             </motion.form>
           </motion.div>
 
+          <div className="w-full h-[600px] md:h-[600px] lg:h-[700px] flex items-center justify-center">
+            <div className="w-full max-w-[600px] aspect-square">
+              <RotatingPlanet />
+            </div>
+          </div>
 
-          <RotatingPlanet />
 
-          
+
+
         </div>
       </div>
     </section>

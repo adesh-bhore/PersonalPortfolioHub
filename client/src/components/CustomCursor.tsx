@@ -56,10 +56,9 @@ export default function CustomCursor() {
         variants={variants}
         animate={cursorVariant}
         transition={{
-          type: "spring",
-          stiffness: 500,
-          damping: 28,
-          mass: 0.5
+          type: "tween",
+          ease: "linear",
+          duration: 0.02, // fast reaction
         }}
       />
       {/* Cursor trail */}
@@ -70,10 +69,9 @@ export default function CustomCursor() {
           y: mousePosition.y - 4,
         }}
         transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 15,
-          mass: 0.1
+          type: "tween",
+    ease: "linear",
+    duration: 0.04,
         }}
       />
     </>

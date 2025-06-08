@@ -2,9 +2,77 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+
 const app = express();
+const port = process.env.PORT || 5000;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// --- The Main API Route ---
+app.post('/api/contact', async (req, res) => {
+    try {
+        const { from_name, from_email, message } = req.body;
+
+        // Validation (basic example)
+        if (!from_name || !from_email || !message) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+
+        // Create a Nodemailer transporter
+        // IMPORTANT: Use environment variables for your email credentials
+        const transporter = nodemailer.createTransport({
+            service: 'gmail', // or your email provider
+            auth: {
+                user: "adeshbhore107@gmail.com",
+                pass: "uooo mivv bnzj okbs", // For Gmail, this is an "App Password"
+            },
+        });
+
+        // Define the email options
+        const mailOptions = {
+            from: `"${from_name}" <${from_email}>`,
+            to: "adeshbhore107@gmail.com", // The email address you want to receive messages on
+            subject: `New Portfolio Message from ${from_name}`,
+            html: `
+                <h3>You have a new contact form submission</h3>
+                <ul>
+                    <li><strong>Name:</strong> ${from_name}</li>
+                    <li><strong>Email:</strong> ${from_email}</li>
+                </ul>
+                <h4>Message:</h4>
+                <p>${message}</p>
+            `,
+        };
+
+        // Send the email
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: 'Message sent successfully!' });
+
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ message: 'Failed to send message. Please try again later.' });
+    }
+});
+
+
+if (process.env.NODE_ENV === "production") {
+  const path = require("path");
+  app.use(express.static(path.join(__dirname, "..", "client", "build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "..", "client", "build", "index.html"));
+  });
+}
+
+
+
+
+
+
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -59,7 +127,6 @@ app.use((req, res, next) => {
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
-  const port = 5000;
   server.listen({
     port,
     host: "0.0.0.0",
